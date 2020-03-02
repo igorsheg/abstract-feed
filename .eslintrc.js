@@ -17,19 +17,20 @@ module.exports = {
         sourceType: "module"
     },
     rules: {
-        "react/no-unknown-property": ["error", { ignore: ["class"] }]
+        "react/no-unknown-property": ["error", { ignore: ["class"] }],
+        "react/display-name": 0
     },
     settings: {
         react: {
-            pragma: "h",
             version: "detect"
         }
     },
     overrides: [
         {
-            files: ["*.js", "*.tsx"],
+            files: ["*.js", "*.tsx", "*.ts"],
             rules: {
-                "@typescript-eslint/explicit-function-return-type": "off"
+                "@typescript-eslint/explicit-function-return-type": "off",
+                "@typescript-eslint/no-var-requires": 0
             }
         }
     ]
