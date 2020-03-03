@@ -1,30 +1,16 @@
-import { Client, Organizations, Organization } from "abstract-sdk";
+import { Client, Organization } from "abstract-sdk";
 
 const AbstractClient = ({ token }: { token: string }) => {
-    return new Client({
+    const client: Client = new Client({
         accessToken: token,
         transportMode: ["cli", "api"]
     });
+
+    return {
+        listOrganizations: (): Promise<Organization[]> => {
+            return client.organizations.list();
+        }
+    };
 };
 
-const listOrganizations = ({
-    client
-}: {
-    client: Client;
-}): Promise<Organization[]> => {
-    return client.organizations.list();
-};
-
-const listProjects = ({ client, organizationId }: listProjectsProps) => {
-    return client.projects.list(
-        { organizationId: organizationId },
-        { filter: "active" }
-    );
-};
-
-type listProjectsProps = {
-    client: Client;
-    organizationId: string;
-};
-
-export { AbstractClient, listOrganizations, listProjects };
+export { AbstractClient };
