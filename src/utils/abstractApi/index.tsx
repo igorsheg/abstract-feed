@@ -1,4 +1,3 @@
-//@ts-nocheck
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { Client } from "abstract-sdk";
 
