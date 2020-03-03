@@ -1,50 +1,49 @@
-import React, {
-    useState,
-    useEffect,
-    useRef,
-    ChangeEvent,
-    MouseEvent
-} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AbstractClient, listOrganizations } from "../utils/abstractApi";
 import { NextPage } from "next";
+import { Client, Organization, Organizations } from "abstract-sdk";
+
+const OrganizationDropDown = (props: {
+    organizations: Organization[] | null;
+}) => {
+    const { organizations } = props;
+    if (organizations)
+        return (
+            <select>
+                {organizations.map(org => (
+                    <option key={org.id}>{org.name}</option>
+                ))}
+            </select>
+        );
+    return null;
+};
 
 const Login: NextPage = () => {
-    const [token, setToken] = useState<string | null>(null);
+    const [orgs, setOrgs] = useState<Organization[] | null>(null);
 
-    const client = (token: string) => AbstractClient({ token });
+    const tokenInput = useRef<HTMLInputElement>(null);
 
-    const formRef = useRef<HTMLFormElement>(null);
-
-    useEffect(() => {
-        if (formRef.current) {
-            console.log(formRef.current["token"]);
+    const handleTokenSubmit = async () => {
+        if (tokenInput.current) {
+            const client = AbstractClient({ token: tokenInput.current.value });
+            try {
+                const orgs = await listOrganizations({ client });
+                setOrgs(orgs);
+            } catch {}
         }
-    }, [formRef]);
-
-    const handleFormChange = (ev: ChangeEvent<HTMLInputElement>) => {
-        setToken(ev.target.value);
     };
-    const handleTokenSubmit = (ev: MouseEvent<HTMLButtonElement>) => {
-        console.log(ev);
-    };
-
-    useEffect(() => {
-        if (token) {
-            const yay = client(token);
-            listOrganizations({ client: yay }).then(x => console.log(x));
-        }
-    }, [token]);
 
     return (
         <div>
             Login
-            <form ref={formRef}>
+            <form>
                 <input
-                    onChange={handleFormChange}
                     name="token"
+                    ref={tokenInput}
                     type="text"
                     placeholder="token"
                 ></input>
+                <OrganizationDropDown organizations={orgs} />
                 <button onClick={handleTokenSubmit} type="button">
                     Go!
                 </button>

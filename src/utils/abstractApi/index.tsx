@@ -1,4 +1,4 @@
-import { Client } from "abstract-sdk";
+import { Client, Organizations, Organization } from "abstract-sdk";
 
 const AbstractClient = ({ token }: { token: string }) => {
     return new Client({
@@ -7,8 +7,12 @@ const AbstractClient = ({ token }: { token: string }) => {
     });
 };
 
-const listOrganizations = ({ client }: { client: Client }) => {
-    return client.organizations.list().catch(err => console.log(err));
+const listOrganizations = ({
+    client
+}: {
+    client: Client;
+}): Promise<Organization[]> => {
+    return client.organizations.list();
 };
 
 const listProjects = ({ client, organizationId }: listProjectsProps) => {
