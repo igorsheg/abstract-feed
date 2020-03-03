@@ -8,7 +8,7 @@ const AbstractClient = ({ token }: { token: string }) => {
 };
 
 const listOrganizations = ({ client }: { client: Client }) => {
-    return client.organizations.list();
+    return client.organizations.list().catch(err => console.log(err));
 };
 
 const listProjects = ({ client, organizationId }: listProjectsProps) => {

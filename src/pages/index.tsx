@@ -15,11 +15,12 @@ const Index: NextPage = () => {
     useEffect(() => {
         listOrganizations({ client }).then(x => {
             console.log(x);
-
-            const orgID = x[0].id;
-            listProjects({ client, organizationId: orgID }).then(y =>
-                console.log(y)
-            );
+            if (x) {
+                const orgID = x[0].id;
+                listProjects({ client, organizationId: orgID }).then(y =>
+                    console.log(y)
+                );
+            }
         });
     }, []);
 
