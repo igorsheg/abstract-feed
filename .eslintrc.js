@@ -18,7 +18,8 @@ module.exports = {
     },
     rules: {
         "react/no-unknown-property": ["error", { ignore: ["class"] }],
-        "react/display-name": 0
+        "react/display-name": 0,
+        "react/prop-types": 0
     },
     settings: {
         react: {
