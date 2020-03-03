@@ -1,48 +1,73 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React, { useState, useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { Redirect } from "../utils/redirect";
 import nextCookie from "next-cookies";
 import { AbstractClient } from "../utils/abstractApi";
 import { Organization, Section } from "abstract-sdk";
+import useSWR from "swr";
 
-const OrganizationDropDown = (props: {
-    organizations: Organization[] | null;
-}) => {
-    const { organizations } = props;
-    if (organizations)
+const Dropdown = ({ data, changeHandler, type }: DropdownProps) => {
+    if (data)
         return (
-            <select>
-                {organizations.map(org => (
-                    <option key={org.id}>{org.name}</option>
+            <select
+                onChange={e =>
+                    changeHandler({
+                        type,
+                        id: e.target.value
+                    })
+                }
+            >
+                {data.map(item => (
+                    <option value={item.id} key={item.id}>
+                        {item.name}
+                    </option>
                 ))}
             </select>
         );
     return null;
 };
 
-type SetupProps = {
-    organizations: Organization[] | null;
-    sections: Section[] | null;
-};
-
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const api = AbstractClient({ token });
 
-    const [data, setData] = useState<SetupProps>({
-        organizations: null,
-        sections: null
+    const [feedSettings, setFeedSettings] = useState({
+        sectionId: null,
+        organizationId: null
     });
 
+    const { sectionId, organizationId } = feedSettings;
+
+    const { data: orgs } = useSWR("orgs", () => api.organizations.list());
+
+    const { data: sections } = useSWR(
+        organizationId ? ["sections", organizationId] : null,
+        //@ts-ignore
+        () => api.sections.list({ organizationId })
+    );
+
     useEffect(() => {
-        api.listOrganizations().then(orgs =>
-            setData({ ...data, organizations: orgs })
-        );
-    }, []);
+        if (orgs) {
+            setFeedSettings({
+                ...feedSettings,
+                organizationId: orgs[0].id
+            });
+        }
+    }, [orgs]);
+
+    const changeHandler = ({ type, id }) => {
+        setFeedSettings({ ...feedSettings, [type]: id });
+    };
 
     return (
         <div>
-            Hello World.
-            <OrganizationDropDown organizations={data.organizations} />
+            Setup.
+            <Dropdown type="organizationId" changeHandler={changeHandler} data={orgs} />
+            {sections ? (
+                <Dropdown type="sectionId" changeHandler={changeHandler} data={sections} />
+            ) : (
+                <p>no items</p>
+            )}
         </div>
     );
 };
@@ -55,4 +80,11 @@ Setup.getInitialProps = async (ctx: NextPageContext) => {
     }
     return { token };
 };
+
+type DropdownProps = {
+    data: Organization[] | Section[] | null;
+    type: string;
+    changeHandler: ({ type, id }: { type: string; id: string }) => void;
+};
+
 export default Setup;

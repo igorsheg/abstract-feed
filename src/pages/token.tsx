@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import { Redirect } from "../utils/redirect";
+import fetch from "isomorphic-unfetch";
 
 const Login: NextPage = () => {
     const tokenInput = useRef<HTMLInputElement>(null);
@@ -13,13 +14,13 @@ const Login: NextPage = () => {
             const token = tokenInput.current.value;
             const api = AbstractClient({ token });
             try {
-                await api.listOrganizations();
+                await api.organizations.list();
                 await fetch(`api/tokenCookie`, {
                     headers: { Authorization: `bearer ${token}` }
                 });
                 Router.replace("/setup");
             } catch {
-                console.log("Not a valid token");
+                console.error("Not a valid token");
             }
         }
     };
