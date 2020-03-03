@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { AbstractClient, listOrganizations } from "../utils/abstractApi";
 import { NextPage } from "next";
-import { Client, Organization, Organizations } from "abstract-sdk";
+import { Client, Organization } from "abstract-sdk";
 
 const OrganizationDropDown = (props: {
     organizations: Organization[] | null;
@@ -20,12 +20,13 @@ const OrganizationDropDown = (props: {
 
 const Login: NextPage = () => {
     const [orgs, setOrgs] = useState<Organization[] | null>(null);
-
     const tokenInput = useRef<HTMLInputElement>(null);
 
     const handleTokenSubmit = async () => {
         if (tokenInput.current) {
-            const client = AbstractClient({ token: tokenInput.current.value });
+            const client: Client = AbstractClient({
+                token: tokenInput.current.value
+            });
             try {
                 const orgs = await listOrganizations({ client });
                 setOrgs(orgs);
