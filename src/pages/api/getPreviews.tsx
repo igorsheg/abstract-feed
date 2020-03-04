@@ -1,4 +1,4 @@
-import { AbstractClient } from "../../../abstractClient";
+import { AbstractClient } from "../../utils/abstractClient";
 import { encode } from "base64-arraybuffer";
 import { NextApiRequest, NextApiResponse } from "next";
 

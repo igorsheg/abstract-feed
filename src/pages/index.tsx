@@ -4,8 +4,7 @@ import nextCookie from "next-cookies";
 import { Redirect } from "../utils/redirect";
 import { NextPage, NextPageContext } from "next";
 import useSWR from "swr";
-import { AbstractClient } from "../../abstractClient";
-import { Project } from "abstract-sdk";
+import { Client, Project } from "abstract-sdk";
 import SingleProject from "../components/Project";
 import useInterval from "../utils/useInterval";
 
@@ -17,7 +16,7 @@ type IndexProps = {
 
 const Index: NextPage<IndexProps> = props => {
     const { token, organizationId, sectionId } = props;
-    const api = AbstractClient({ token });
+    const api = new Client({ accessToken: token, transportMode: ["cli", "api"] });
     const delay = 1000 * 30;
 
     const { data: projects } = useSWR<Project[]>(["projects", sectionId], () =>

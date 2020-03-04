@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { Redirect } from "../utils/redirect";
 import nextCookie from "next-cookies";
-import { AbstractClient } from "../../abstractClient";
+import { AbstractClient } from "../utils/abstractClient";
 import useSWR, { mutate } from "swr";
 import Dropdown from "../components/Dropdown";
 import { feedSettings } from "../utils/store";
