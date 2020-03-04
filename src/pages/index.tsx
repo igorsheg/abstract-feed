@@ -4,9 +4,9 @@ import nextCookie from "next-cookies";
 import { Redirect } from "../utils/redirect";
 import { NextPage, NextPageContext } from "next";
 import useSWR from "swr";
-import { Client, Project } from "abstract-sdk";
 import SingleProject from "../components/Project";
 import useInterval from "../utils/useInterval";
+import useFetch from "../utils/useFetch";
 
 type IndexProps = {
     token: string;
@@ -16,11 +16,13 @@ type IndexProps = {
 
 const Index: NextPage<IndexProps> = props => {
     const { token, organizationId, sectionId } = props;
-    const api = new Client({ accessToken: token, transportMode: ["cli", "api"] });
     const delay = 1000 * 30;
 
-    const { data: projects } = useSWR<Project[]>(["projects", sectionId], () =>
-        api.projects.list({ organizationId }, { filter: "active", sectionId })
+    const fetcher = useFetch(token);
+
+    const { data: projects } = useSWR(
+        organizationId ? ["api/listProjects", organizationId, sectionId] : null,
+        (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId })
     );
 
     const [projectSteps, setProjectStep]: any = useInterval({
@@ -34,7 +36,6 @@ const Index: NextPage<IndexProps> = props => {
         <SingleProject
             key={projects[projectSteps].id}
             token={token}
-            api={api}
             projectSteps={[projectSteps, setProjectStep]}
             project={projects[projectSteps]}
         />

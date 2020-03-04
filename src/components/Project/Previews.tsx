@@ -1,36 +1,21 @@
-import React, { FC, useEffect } from "react";
-import { Project, Collection, Client } from "abstract-sdk";
+import React from "react";
 import useSWR from "swr";
-import fetch from "isomorphic-unfetch";
-import useInterval from "../../utils/useInterval";
-
-const getPreviews = ({ token, projectId, fileId, layerId }) => {
-    return fetch("api/getPreviews", {
-        method: "POST",
-        body: JSON.stringify({
-            token,
-            projectId,
-            branchId: "master",
-            fileId,
-            layerId,
-            sha: "latest"
-        })
-    }).then(x => x.json());
-};
+import useFetch from "../../utils/useFetch";
 
 const Previews = ({ collection, project, token }) => {
     const previewData = {
-        token,
         projectId: project.id,
+        branchId: "master",
         fileId: collection.layers[0].fileId,
-        layerId: collection.layers[0].layerId
+        layerId: collection.layers[0].layerId,
+        sha: "latest"
     };
 
-    const { data: previews } = useSWR(["previews", collection.id], () => getPreviews(previewData));
+    const fetcher = useFetch(token);
 
-    useEffect(() => {
-        console.log(previews);
-    }, [previews]);
+    const { data: previews } = useSWR(["api/getPreviews", collection.id], url =>
+        fetcher(url, previewData)
+    );
 
     if (!previews) return null;
     return (

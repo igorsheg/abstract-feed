@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useInterval = ({ data, delay }) => {
+const useInterval = ({ data, delay }): [number, (x: number) => void] => {
     const [step, setStep] = useState(0);
 
     useEffect(() => {

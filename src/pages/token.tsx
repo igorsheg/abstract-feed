@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { AbstractClient } from "../utils/abstractClient";
 import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
@@ -12,16 +11,15 @@ const Login: NextPage = () => {
     const handleTokenSubmit = async () => {
         if (tokenInput.current) {
             const token = tokenInput.current.value;
-            const api = AbstractClient({ token });
-            try {
-                await api.organizations.list();
-                await fetch(`api/tokenCookie`, {
-                    headers: { Authorization: `bearer ${token}` }
-                });
-                Router.replace("/setup");
-            } catch {
-                console.error("Not a valid token");
-            }
+            const authHeader = { headers: { Authorization: `bearer ${token}` } };
+
+            const isValidToken = await fetch(`api/listOrganizations`, authHeader);
+            console.log(isValidToken);
+
+            if (!isValidToken.ok) return;
+
+            await fetch(`api/tokenCookie`, authHeader);
+            Router.replace("/setup");
         }
     };
 
