@@ -17,7 +17,7 @@ const useInterval = ({ data, delay }) => {
         }
     }, [step, data]);
 
-    return { step, setStep };
+    return [step, setStep];
 };
 
 export default useInterval;

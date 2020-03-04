@@ -18,18 +18,27 @@ type IndexProps = {
 const Index: NextPage<IndexProps> = props => {
     const { token, organizationId, sectionId } = props;
     const api = AbstractClient({ token });
-    const delay = 10000;
+    const delay = 1000 * 30;
 
     const { data: projects } = useSWR<Project[]>(["projects", sectionId], () =>
         api.projects.list({ organizationId }, { filter: "active", sectionId })
     );
 
-    const { step, setStep } = useInterval({ data: projects, delay });
+    const [projectSteps, setProjectStep]: any = useInterval({
+        data: projects,
+        delay
+    });
 
     if (!projects) return null;
 
     return (
-        <SingleProject token={token} api={api} steps={[step, setStep]} project={projects[step]} />
+        <SingleProject
+            key={projects[projectSteps].id}
+            token={token}
+            api={api}
+            projectSteps={[projectSteps, setProjectStep]}
+            project={projects[projectSteps]}
+        />
     );
 };
 
