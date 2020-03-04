@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from "react";
-import { Project, Collection } from "abstract-sdk";
+import { Project, Collection, Client } from "../../utils/types";
 import useSWR from "swr";
-import { Client } from "abstract-sdk";
 
 interface ProjectProps {
     project: Project;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Organization } from "abstract-sdk";
+import { Organization } from "../../utils/types";
 
 type DropdownProps = {
     data: Organization[];
