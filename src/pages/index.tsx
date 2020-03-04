@@ -18,7 +18,7 @@ type IndexProps = {
 const Index: NextPage<IndexProps> = props => {
     const { token, organizationId, sectionId } = props;
     const api = AbstractClient({ token });
-    const delay = 6000;
+    const delay = 10000;
 
     const { data: projects } = useSWR<Project[]>(["projects", sectionId], () =>
         api.projects.list({ organizationId }, { filter: "active", sectionId })
@@ -28,7 +28,9 @@ const Index: NextPage<IndexProps> = props => {
 
     if (!projects) return null;
 
-    return <SingleProject api={api} steps={[step, setStep]} project={projects[step]} />;
+    return (
+        <SingleProject token={token} api={api} steps={[step, setStep]} project={projects[step]} />
+    );
 };
 
 Index.getInitialProps = async (ctx: NextPageContext): Promise<IndexProps> => {

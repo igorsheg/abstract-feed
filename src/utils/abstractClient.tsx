@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// import { Client } from "../utils/types";
 import { Client } from "abstract-sdk";
 
 const AbstractClient = ({ token }: { token: string }) => {
