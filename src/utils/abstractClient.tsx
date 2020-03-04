@@ -5,7 +5,6 @@ const AbstractClient = ({ token }: { token: string }) => {
         accessToken: token,
         transportMode: ["cli", "api"]
     });
-
     return client;
 };
 

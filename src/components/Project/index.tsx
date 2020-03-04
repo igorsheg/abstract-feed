@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Project, Collection, Client } from "../../utils/types";
+import { Project, Collection, Client } from "abstract-sdk";
 import useSWR from "swr";
 import useInterval from "../../utils/useInterval";
 import Previews from "./Previews";

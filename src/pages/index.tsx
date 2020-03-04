@@ -5,7 +5,7 @@ import { Redirect } from "../utils/redirect";
 import { NextPage, NextPageContext } from "next";
 import useSWR from "swr";
 import { AbstractClient } from "../utils/abstractClient";
-import { Project } from "../utils/types";
+import { Project } from "abstract-sdk";
 import SingleProject from "../components/Project";
 import useInterval from "../utils/useInterval";
 
