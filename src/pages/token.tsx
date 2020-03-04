@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { AbstractClient } from "../utils/abstractClient";
+import { AbstractClient } from "../../abstractClient";
 import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
