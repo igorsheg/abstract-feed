@@ -916,10 +916,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@elasticprojects/abstract-cli@^3.5.0":
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/@elasticprojects/abstract-cli/-/abstract-cli-3.5.3.tgz#c8410b4553acdb51ae707424bce43e436535c7fc"
-  integrity sha512-OvSv4tsL3N76IHgytI/VIvVJmVXXpPyDApIDawOa/MiBtmh6kXHwczP4NhxcR13O7nfCTHvY69gG3DgCmmTuCg==
+"@elasticprojects/abstract-cli@^4.3.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@elasticprojects/abstract-cli/-/abstract-cli-4.4.0.tgz#fe13f208fe99d1433a79c1e437d460bde75b42b2"
+  integrity sha512-VVAJiLDr/q7Un0aPbxwujiPdHqXOYCAA71fJf3SoP7sSUuzg9QrrMDdah2pf13pciOo4FCqs6fYbcJz+L98WZg==
 
 "@emotion/is-prop-valid@^0.8.3":
   version "0.8.7"
@@ -1288,13 +1288,13 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-abstract-sdk@^8.0.0-beta.12:
-  version "8.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/abstract-sdk/-/abstract-sdk-8.0.0-beta.12.tgz#0e1bf82a95b95b2203ad6d604d8e6954b49084b7"
-  integrity sha512-yGGMqLs8Spk8ErPjCckkWMiHhwvqj8NEmtsHomkktRJKfhGWT+7kGeE5ICCQIxhbBalP+TKv9kxV50rqZOSlGQ==
+abstract-sdk@^8.0.0-beta.7:
+  version "8.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/abstract-sdk/-/abstract-sdk-8.0.0-beta.14.tgz#8f780af8d1af22db33e67e9bc64e432276fe5a41"
+  integrity sha512-TqvGv/r5TTNEoIut13f86MKwtf3EeLuaOkoZ8rjcvHOBD798/GQ52acCK0ZCtmnb1KzILOPHBVB5lDsVwQTqYg==
   dependencies:
     "@babel/runtime-corejs2" "^7.3.4"
-    "@elasticprojects/abstract-cli" "^3.5.0"
+    "@elasticprojects/abstract-cli" "^4.3.0"
     cross-fetch "^3.0.1"
     debug "^4.0.1"
     flow-typed "^2.5.1"

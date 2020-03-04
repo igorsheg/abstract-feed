@@ -8,7 +8,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "abstract-sdk": "^8.0.0-beta.12",
+    "abstract-sdk": "^8.0.0-beta.7",
     "base64-arraybuffer": "^0.2.0",
     "cookie": "^0.4.0",
     "isomorphic-unfetch": "^3.0.0",
