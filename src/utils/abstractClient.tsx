@@ -1,7 +1,7 @@
-import { Client } from "abstract-sdk";
+import * as Abstract from "abstract-sdk";
 
 const AbstractClient = ({ token }: { token: string }) => {
-    const client: Client = new Client({
+    const client = new Abstract.Client({
         accessToken: token,
         transportMode: ["cli", "api"]
     });
