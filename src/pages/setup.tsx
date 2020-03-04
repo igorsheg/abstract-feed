@@ -3,10 +3,11 @@ import React, { useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { Redirect } from "../utils/redirect";
 import nextCookie from "next-cookies";
-import { AbstractClient } from "../utils/abstractApi";
+import { AbstractClient } from "../utils/abstractClient";
 import useSWR, { mutate } from "swr";
 import Dropdown from "../components/Project/Dropdown";
 import { feedSettings } from "../utils/store";
+import Router from "next/router";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const api = AbstractClient({ token });
@@ -23,9 +24,9 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         { shouldRetryOnError: false }
     );
 
-    const { data: projects } = useSWR(sectionId ? ["projects", sectionId] : null, () =>
-        api.projects.list({ organizationId }, { filter: "active", sectionId })
-    );
+    // const { data: projects } = useSWR(sectionId ? ["projects", sectionId] : null, () =>
+    //     api.projects.list({ organizationId }, { filter: "active", sectionId })
+    // );
 
     useEffect(() => {
         if (orgs?.length) mutate("store", { ...settings, organizationId: orgs[0].id });
@@ -39,11 +40,13 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         mutate("store", { ...settings, [type]: id });
     };
 
-    useEffect(() => {
-        console.log("organizationId", organizationId, projects);
-    }, [organizationId, projects]);
+    // useEffect(() => {
+    //     console.log("organizationId", organizationId, projects);
+    // }, [organizationId, projects]);
 
-    const clickHandler = () => {};
+    const clickHandler = () => {
+        Router.replace(`/index?sectionId=${sectionId}&organizationId=${organizationId}`, "/");
+    };
 
     if (!orgs) return null;
     return (

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { AbstractClient } from "../utils/abstractApi";
+import { AbstractClient } from "../utils/abstractClient";
 import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
@@ -29,12 +29,7 @@ const Login: NextPage = () => {
         <div>
             Login
             <form>
-                <input
-                    name="token"
-                    ref={tokenInput}
-                    type="text"
-                    placeholder="token"
-                ></input>
+                <input name="token" ref={tokenInput} type="text" placeholder="token"></input>
                 <button onClick={handleTokenSubmit} type="button">
                     Go!
                 </button>
