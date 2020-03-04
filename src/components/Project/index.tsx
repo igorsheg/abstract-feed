@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Project, Collection, Client } from "../../utils/types";
 import useSWR from "swr";
-import fetch from "isomorphic-unfetch";
 import useInterval from "../../utils/useInterval";
 import Previews from "./Previews";
 
