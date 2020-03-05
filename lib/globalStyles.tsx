@@ -3,16 +3,22 @@ import theme from "./utils/theme";
 
 const GlobalStyle = createGlobalStyle`
 
+*, *::after, *::before {
+    box-sizing: border-box;
+}
 
 html { 
 font-family: 'Inter', sans-serif;
 max-height: 100vh;
 max-width: 100vw;
 overflow: hidden;
+background: ${theme.D80};
+color: ${theme.D10};
+
  }
  body {
-     height: 100vh;
-     width: 100vw;
+	 padding: 0;
+	 margin: 0;
  }
 @supports (font-variation-settings: normal) {
   html { font-family: 'Inter var', sans-serif; }

@@ -2,12 +2,14 @@
 import { darken, lighten } from "polished";
 
 const colors = {
-    dark: "#111",
-    D10: "#111",
-
+    D10: "#FFFFFF",
     D20: "#F3F3F3",
-    D70: "#DADADA",
-    D80: "#FFFFFF",
+    D30: "#DADADA",
+    D40: "#9A9A9A",
+    D50: "#2F3336",
+    D60: "#16181D",
+    D70: "#222324",
+    D80: "#111111",
 
     B10: "rgb(0, 85, 255)"
 };

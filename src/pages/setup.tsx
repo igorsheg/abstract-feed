@@ -52,57 +52,32 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
 
     if (!orgs) return null;
 
-    const orgInput = useRef<HTMLInputElement>();
-
-    const OrgsDropdown = () => {
-        return (
-            <StyledDropdown>
-                {orgs.map(x => (
-                    <li
-                        onClick={() =>
-                            changeHandler({ type: "organization", id: x.id, name: x.name })
-                        }
-                        key={x.id}
-                    >
-                        {x.name}
-                    </li>
-                ))}
-            </StyledDropdown>
-        );
-    };
-
-    const SectionsDropdown = () => {
-        return (
-            <StyledDropdown>
-                {sections.map(x => (
-                    <li
-                        onClick={() => changeHandler({ type: "section", id: x.id, name: x.name })}
-                        key={x.id}
-                    >
-                        {x.name}
-                    </li>
-                ))}
-            </StyledDropdown>
-        );
-    };
-
     const inputChangeHandler = ({ item, type }) => {
         changeHandler({ type: type, id: item.id, name: item.name });
     };
 
     return (
         <StyledPage justify="center">
-            <Input
-                options={orgs}
-                value={organization.name}
-                onChange={item => inputChangeHandler({ item, type: "organization" })}
-            />
-            <Input
-                options={sections}
-                value={section.name}
-                onChange={item => inputChangeHandler({ item, type: "section" })}
-            />
-            <Button onClick={clickHandler}>Go to App</Button>
+            <Title>
+                <h1>Setup</h1>
+                <h3>Select which organization and section you want to display projects from.</h3>
+            </Title>
+
+            <Body>
+                <Input
+                    options={orgs}
+                    withArrow
+                    value={organization.name}
+                    onChange={item => inputChangeHandler({ item, type: "organization" })}
+                />
+                <Input
+                    options={sections}
+                    value={section.name}
+                    withArrow
+                    onChange={item => inputChangeHandler({ item, type: "section" })}
+                />
+                <Button onClick={clickHandler}>Go to Feed</Button>
+            </Body>
         </StyledPage>
     );
 };
@@ -113,27 +88,30 @@ Setup.getInitialProps = async (ctx: NextPageContext) => {
     return { token };
 };
 
-const Styledinput = styled.div``;
+const StyledPage = styled(Flex)`
+    width: 720px;
+    height: 100vh;
+    flex-direction: column;
+`;
+const Title = styled.div`
+    margin: 0 0 3em 0;
+    h1 {
+        font-size: 3.2em;
+    }
+    h3 {
+        font-size: 1.6em;
+        font-weight: 300;
+        line-height: 1.6em;
+    }
+`;
 
-const StyledPage = styled(Flex)``;
+const Body = styled.div`
+    display: flex;
+    flex-direction: row;
 
-const StyledDropdown = styled.ul`
-    width: 144px;
-    box-shadow: rgba(0, 0, 0, 0.0470588) 0px 0px 0px 1px, rgba(0, 0, 0, 0.0784314) 0px 4px 8px,
-        rgba(0, 0, 0, 0.0784314) 0px 2px 4px;
-    list-style: none;
-    padding: 6px 0;
-    margin: 0;
-    border-radius: 6px;
-    li {
-        height: 30px;
-        padding: 0 12px;
-        display: flex;
-        align-items: center;
-
-        &:hover {
-            background: ${props => props.theme.D20};
-        }
+    & div {
+        margin: 0 30px 0 0;
+        flex: 5;
     }
 `;
 
