@@ -34,12 +34,9 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
     }, [orgs]);
 
     useEffect(() => {
-        if (sections?.length) {
-            mutate("store", {
-                ...settings,
-                section: { id: sections[0].id, name: sections[0].name }
-            });
-        }
+        const id = sections?.length ? sections[0].id : null;
+        const name = sections?.length ? sections[0].name : "No sections";
+        mutate("store", { ...settings, section: { id, name } });
     }, [sections]);
 
     const changeHandler = ({ type, id, name }) => {
@@ -60,7 +57,9 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         <StyledPage justify="center">
             <Title>
                 <h1>Setup</h1>
-                <h3>Select which organization and section you want to display projects from.</h3>
+                <h3>
+                    Select which section from which organization you want to display projects from.
+                </h3>
             </Title>
 
             <Body>
@@ -74,9 +73,12 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
                     options={sections}
                     value={section.name}
                     withArrow
+                    disabled={section.id ? false : true}
                     onChange={item => inputChangeHandler({ item, type: "section" })}
                 />
-                <Button onClick={clickHandler}>Go to Feed</Button>
+                <Button tabIndex={0} type="button" onClick={clickHandler}>
+                    Go to Feed
+                </Button>
             </Body>
         </StyledPage>
     );

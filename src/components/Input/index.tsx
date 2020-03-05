@@ -23,34 +23,34 @@ const Dropdown = ({ options, onChange }) => {
     );
 };
 const Input: FC<DropdownProps> = ({ options, value, onChange, withArrow, disabled }) => {
-    if (!options?.length)
+    if (!options?.length || disabled)
         return (
-            <StyledInput>
+            <StyledInput disabled={disabled}>
                 {withArrow && <ArrowDown size={21} />}
-                <input disabled onChange={e => console.log(e)} value={value} />
+                <input disabled={disabled} onChange={e => console.log(e)} value={value} />
             </StyledInput>
         );
     return (
-        <Trigger
-            action={["click", "focus"]}
-            popup={<Dropdown options={options} onChange={onChange} />}
-            mask={false}
-            stretch="width"
-            destroyPopupOnHide
-            popupAlign={{
-                points: ["t", "b"],
-                offset: [0, 3]
-            }}
-        >
-            <StyledInput>
-                {withArrow && <ArrowDown size={21} />}
-                <input onChange={e => console.log(e)} value={value} />
-            </StyledInput>
-        </Trigger>
+        <StyledInput disabled={disabled}>
+            <Trigger
+                action={["focus"]}
+                popup={<Dropdown options={options} onChange={onChange} />}
+                stretch="width"
+                destroyPopupOnHide
+                forceRender
+                popupAlign={{
+                    points: ["t", "b"],
+                    offset: [0, 3]
+                }}
+            >
+                <input disabled={disabled} onChange={e => console.log(e)} value={value} />
+            </Trigger>
+            {withArrow && <ArrowDown size={21} />}
+        </StyledInput>
     );
 };
 
-const StyledInput = styled.div`
+const StyledInput = styled.div<{ disabled?: boolean }>`
     position: relative;
     display: flex;
     align-items: center;
@@ -75,12 +75,17 @@ const StyledInput = styled.div`
             border: 1px solid ${props => props.theme.D10};
             outline: none;
         }
+        &:disabled {
+            border: 1px solid ${props => props.theme.D50};
+            color: ${props => props.theme.D30};
+        }
     }
+
     svg {
         position: absolute;
         right: 12px;
         pointer-events: none;
-        fill: ${props => props.theme.D10};
+        fill: ${props => (props.disabled ? props.theme.D40 : props.theme.D10)};
     }
 `;
 const StyledDropdown = styled.ul`
