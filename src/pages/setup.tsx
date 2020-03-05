@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { Redirect } from "../../lib/utils/redirect";
 import nextCookie from "next-cookies";
@@ -9,7 +9,6 @@ import { feedSettings } from "../../lib/utils/store";
 import Router from "next/router";
 import { Organization } from "abstract-sdk";
 import useFetch from "../../lib/utils/useFetch";
-import Trigger from "rc-trigger";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
 import styled from "styled-components";
@@ -98,7 +97,7 @@ const StyledPage = styled(Flex)`
 const Title = styled.div`
     margin: 0 0 3em 0;
     h1 {
-        font-size: 3.2em;
+        font-size: 3.8em;
     }
     h3 {
         font-size: 1.6em;
