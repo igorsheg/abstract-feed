@@ -13,7 +13,7 @@ type Props = {
     auto?: boolean;
     className?: string;
     children?: ReactNode;
-    onClick: () => void;
+    onClick?: () => void;
 };
 
 const Flex = (props: Props) => {
