@@ -4,7 +4,7 @@ import { NextPage, NextPageContext } from "next";
 import { Redirect } from "../../lib/utils/redirect";
 import nextCookie from "next-cookies";
 import useSWR, { mutate } from "swr";
-import Dropdown from "../components/Dropdown";
+// import Dropdown from "../components/Dropdown";
 import { feedSettings } from "../../lib/utils/store";
 import Router from "next/router";
 import { Organization } from "abstract-sdk";
@@ -13,6 +13,7 @@ import Trigger from "rc-trigger";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
 import styled from "styled-components";
+import Input from "../components/Input";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store", { initialData: feedSettings });
@@ -85,33 +86,22 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         );
     };
 
+    const inputChangeHandler = ({ item, type }) => {
+        changeHandler({ type: type, id: item.id, name: item.name });
+    };
+
     return (
         <StyledPage justify="center">
-            <Trigger
-                action={["click"]}
-                popup={<OrgsDropdown />}
-                mask={false}
-                destroyPopupOnHide
-                popupAlign={{
-                    points: ["t", "b"]
-                }}
-            >
-                <input onChange={e => console.log(e)} value={organization.name} />
-            </Trigger>
-
-            <Trigger
-                action={["click"]}
-                popup={<SectionsDropdown />}
-                mask={false}
-                destroyPopupOnHide
-                popupAlign={{
-                    points: ["t", "b"]
-                }}
-            >
-                <input onChange={e => console.log(e)} value={section.name} />
-            </Trigger>
-
-            {/* <Dropdown type="section" changeHandler={changeHandler} data={sections} /> */}
+            <Input
+                options={orgs}
+                value={organization.name}
+                onChange={item => inputChangeHandler({ item, type: "organization" })}
+            />
+            <Input
+                options={sections}
+                value={section.name}
+                onChange={item => inputChangeHandler({ item, type: "section" })}
+            />
             <Button onClick={clickHandler}>Go to App</Button>
         </StyledPage>
     );
