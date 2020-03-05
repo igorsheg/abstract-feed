@@ -14,7 +14,6 @@ const Login: NextPage = () => {
             const authHeader = { headers: { Authorization: `bearer ${token}` } };
 
             const isValidToken = await fetch(`api/listOrganizations`, authHeader);
-            console.log(await isValidToken.json());
 
             if (!isValidToken.ok) return;
 

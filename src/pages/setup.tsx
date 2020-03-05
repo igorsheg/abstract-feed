@@ -9,6 +9,7 @@ import { feedSettings } from "../utils/store";
 import Router from "next/router";
 import { Organization } from "abstract-sdk";
 import useFetch from "../utils/useFetch";
+import { DropdownMenu, DropdownMenuItem } from "../components/DropdownMenu";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store", { initialData: feedSettings });
@@ -43,6 +44,12 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
     return (
         <div>
             Setup.
+            <DropdownMenu position="center">
+                yay!
+                {orgs.map(org => (
+                    <DropdownMenuItem key={org.id}>{org.name}</DropdownMenuItem>
+                ))}
+            </DropdownMenu>
             <Dropdown type="organizationId" changeHandler={changeHandler} data={orgs} />
             <Dropdown type="sectionId" changeHandler={changeHandler} data={sections} />
             <button onClick={clickHandler}>Go to App</button>

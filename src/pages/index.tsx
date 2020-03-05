@@ -45,7 +45,6 @@ Index.getInitialProps = async (ctx: NextPageContext): Promise<IndexProps> => {
     const { token } = nextCookie(ctx);
 
     const { sectionId, organizationId } = ctx.query;
-    console.log(ctx.query, token);
 
     if (!token || !sectionId || !organizationId) {
         Redirect(ctx, "/token");
