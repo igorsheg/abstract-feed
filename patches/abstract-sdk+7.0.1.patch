@@ -1,8 +1,8 @@
 diff --git a/node_modules/abstract-sdk/abstract-sdk.d.ts b/node_modules/abstract-sdk/abstract-sdk.d.ts
-index 86d89a0..3c8aae9 100644
+index a940c1b..2618192 100644
 --- a/node_modules/abstract-sdk/abstract-sdk.d.ts
 +++ b/node_modules/abstract-sdk/abstract-sdk.d.ts
-@@ -1899,10 +1899,10 @@ type WebhookDelivery = {
+@@ -1838,10 +1838,10 @@ type WebhookDelivery = {
    webhookId: string
  };
  

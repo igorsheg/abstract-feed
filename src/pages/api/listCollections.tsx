@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const data = await api.collections.list({ projectId, branchId: "master" });
-        res.status(200).json(data);
+        res.status(200).json(data.collections);
     } catch (err) {
         res.status(401).end();
     }

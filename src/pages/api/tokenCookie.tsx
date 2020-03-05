@@ -10,8 +10,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     const options = {
         path: "/",
         // expires: new Date(tokens.expiry_date),
-        httpOnly: !isDev,
-        secure: !isDev
+        httpOnly: isDev,
+        secure: isDev
     };
     res.setHeader("Set-Cookie", serialize("token", token as string, options));
     res.statusCode = 200;

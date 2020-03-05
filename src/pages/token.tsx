@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import { Redirect } from "../utils/redirect";
-import fetch from "isomorphic-unfetch";
+// import fetch from "isomorphic-unfetch";
 
 const Login: NextPage = () => {
     const tokenInput = useRef<HTMLInputElement>(null);
@@ -14,7 +14,7 @@ const Login: NextPage = () => {
             const authHeader = { headers: { Authorization: `bearer ${token}` } };
 
             const isValidToken = await fetch(`api/listOrganizations`, authHeader);
-            console.log(isValidToken);
+            console.log(await isValidToken.json());
 
             if (!isValidToken.ok) return;
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import nextCookie from "next-cookies";
 import { Redirect } from "../utils/redirect";
 import { NextPage, NextPageContext } from "next";
@@ -41,10 +41,11 @@ const Index: NextPage<IndexProps> = props => {
         />
     );
 };
-
 Index.getInitialProps = async (ctx: NextPageContext): Promise<IndexProps> => {
     const { token } = nextCookie(ctx);
+
     const { sectionId, organizationId } = ctx.query;
+    console.log(ctx.query, token);
 
     if (!token || !sectionId || !organizationId) {
         Redirect(ctx, "/token");

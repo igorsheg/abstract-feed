@@ -36,7 +36,7 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
     };
 
     const clickHandler = () => {
-        Router.replace(`/index?sectionId=${sectionId}&organizationId=${organizationId}`, "/");
+        Router.push(`/index?sectionId=${sectionId}&organizationId=${organizationId}`, "/");
     };
 
     if (!orgs) return null;
