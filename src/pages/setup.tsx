@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React, { useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
-import { Redirect } from "../utils/redirect";
+import { Redirect } from "../../lib/utils/redirect";
 import nextCookie from "next-cookies";
 import useSWR, { mutate } from "swr";
 import Dropdown from "../components/Dropdown";
-import { feedSettings } from "../utils/store";
+import { feedSettings } from "../../lib/utils/store";
 import Router from "next/router";
 import { Organization } from "abstract-sdk";
-import useFetch from "../utils/useFetch";
-import { DropdownMenu, DropdownMenuItem } from "../components/DropdownMenu";
+import useFetch from "../../lib/utils/useFetch";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store", { initialData: feedSettings });
@@ -43,13 +42,6 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
     if (!orgs) return null;
     return (
         <div>
-            Setup.
-            <DropdownMenu position="center">
-                yay!
-                {orgs.map(org => (
-                    <DropdownMenuItem key={org.id}>{org.name}</DropdownMenuItem>
-                ))}
-            </DropdownMenu>
             <Dropdown type="organizationId" changeHandler={changeHandler} data={orgs} />
             <Dropdown type="sectionId" changeHandler={changeHandler} data={sections} />
             <button onClick={clickHandler}>Go to App</button>

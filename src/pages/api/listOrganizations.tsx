@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { NextApiRequest, NextApiResponse } from "next";
-import { AbstractClient } from "../../utils/abstractClient";
+import { AbstractClient } from "../../../lib/utils/abstractClient";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const headers = req.headers.authorization;

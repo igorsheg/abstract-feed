@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React from "react";
 import nextCookie from "next-cookies";
-import { Redirect } from "../utils/redirect";
+import { Redirect } from "../../lib/utils/redirect";
 import { NextPage, NextPageContext } from "next";
 import useSWR from "swr";
 import SingleProject from "../components/Project";
-import useInterval from "../utils/useInterval";
-import useFetch from "../utils/useFetch";
+import useInterval from "../../lib/utils/useInterval";
+import useFetch from "../../lib/utils/useFetch";
 
 type IndexProps = {
     token: string;

@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from "react";
 import { Project } from "abstract-sdk";
 import useSWR from "swr";
-import useInterval from "../../utils/useInterval";
+import useInterval from "../../../lib/utils/useInterval";
 import Previews from "./Previews";
-import useFetch from "../../utils/useFetch";
+import useFetch from "../../../lib/utils/useFetch";
 
 interface ProjectProps {
     project: Project;

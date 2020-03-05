@@ -13,6 +13,7 @@ type Props = {
     auto?: boolean;
     className?: string;
     children?: ReactNode;
+    onClick: () => void;
 };
 
 const Flex = (props: Props) => {
@@ -20,7 +21,7 @@ const Flex = (props: Props) => {
     return <Container {...restProps}>{children}</Container>;
 };
 
-const Container = styled.div`
+const Container = styled.div<Props>`
     display: flex;
     flex: ${({ auto }) => (auto ? "1 1 auto" : "initial")};
     flex-direction: ${({ column }) => (column ? "column" : "row")};

@@ -1,6 +1,6 @@
 import React from "react";
 import useSWR from "swr";
-import useFetch from "../../utils/useFetch";
+import useFetch from "../../../lib/utils/useFetch";
 
 const Previews = ({ collection, project, token }) => {
     const previewData = {

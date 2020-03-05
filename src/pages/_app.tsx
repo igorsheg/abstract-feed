@@ -1,7 +1,8 @@
 import React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
-import theme from "../utils/theme";
+import theme from "../../lib/utils/theme";
+
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <ThemeProvider theme={theme}>
