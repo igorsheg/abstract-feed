@@ -26,7 +26,7 @@ const Input: FC<DropdownProps> = ({ options, value, onChange, withArrow, disable
     if (!options?.length || disabled)
         return (
             <StyledInput disabled={disabled}>
-                {withArrow && <ArrowDown size={21} />}
+                {withArrow && <ArrowDown size={24} />}
                 <input disabled={disabled} onChange={e => console.log(e)} value={value} />
             </StyledInput>
         );
@@ -45,7 +45,7 @@ const Input: FC<DropdownProps> = ({ options, value, onChange, withArrow, disable
             >
                 <input disabled={disabled} onChange={e => console.log(e)} value={value} />
             </Trigger>
-            {withArrow && <ArrowDown size={21} />}
+            {withArrow && <ArrowDown size={24} />}
         </StyledInput>
     );
 };
@@ -67,8 +67,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         background: ${props => props.theme.D80};
         color: ${props => props.theme.D10};
 
-        &:hover {
-            /* border: 1px solid ${props => props.theme.D40}; */
+        &:hover:not(:disabled) {
             background: ${props => props.theme.D70};
         }
 
@@ -86,7 +85,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         position: absolute;
         right: 12px;
         pointer-events: none;
-        fill: ${props => (props.disabled ? props.theme.D40 : props.theme.D10)};
+        fill: ${props => (props.disabled ? props.theme.D50 : props.theme.D10)};
     }
 `;
 const StyledDropdown = styled.ul`
