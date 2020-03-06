@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 import theme from "../../lib/utils/theme";
 import GlobalStyle from "../../lib/globalStyles";
 import Flex from "../components/Flex";
+import { animated, useTransition } from "react-spring";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
+    const router = useRouter();
+
+    const transitions = useTransition(router, item => item.pathname, {
+        from: { opacity: 0, transform: "translateX(-20px)" },
+        enter: { opacity: 1, transform: "translateX(0px)" },
+        leave: { opacity: 0, transform: "translateX(20px)" }
+    });
+
     return (
         <>
             <GlobalStyle />
@@ -17,9 +27,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <meta name="apple-mobile-web-app-status-bar-style" content="white" />
             </head>
             <ThemeProvider theme={theme}>
-                <Flex justify="center" align="center">
-                    <Component {...pageProps} />
-                </Flex>
+                {transitions.map(({ item, props, key }) => (
+                    <animated.div key={key} style={props}>
+                        <Flex justify="center" align="center">
+                            <Component {...pageProps} />
+                        </Flex>
+                    </animated.div>
+                ))}
             </ThemeProvider>
         </>
     );

@@ -36,7 +36,7 @@ const Button = styled.button`
     &:disabled {
         cursor: default;
         pointer-events: none;
-        color: ${props => props.theme.D80};
+        color: ${props => props.theme.D40};
         background: ${props => props.theme.D70};
     }
 `;

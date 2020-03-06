@@ -7,6 +7,7 @@ import useSWR from "swr";
 import SingleProject from "../components/Project";
 import useInterval from "../../lib/utils/useInterval";
 import useFetch from "../../lib/utils/useFetch";
+import Loader from "../components/Loader";
 
 type IndexProps = {
     token: string;
@@ -30,7 +31,7 @@ const Index: NextPage<IndexProps> = props => {
         delay
     });
 
-    if (!projects) return null;
+    if (!projects) return <Loader />;
 
     return (
         <SingleProject

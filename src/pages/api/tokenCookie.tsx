@@ -7,11 +7,13 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     const headers = req.headers.authorization;
     const token = headers?.split("bearer ")[1];
 
+    console.log(token);
+
     const options = {
         path: "/",
         // expires: new Date(tokens.expiry_date),
-        httpOnly: isDev,
-        secure: isDev
+        httpOnly: false,
+        secure: false
     };
     res.setHeader("Set-Cookie", serialize("token", token as string, options));
     res.statusCode = 200;

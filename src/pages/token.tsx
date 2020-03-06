@@ -1,37 +1,61 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
-// import fetch from "isomorphic-unfetch";
+import fetch from "isomorphic-unfetch";
+import styled from "styled-components";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import LoadingDots from "../components/Loader/LoadingDots";
 
 const Login: NextPage = () => {
-    const tokenInput = useRef<HTMLInputElement>(null);
+    const [token, setToken] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleTokenSubmit = async () => {
-        if (tokenInput.current) {
-            const token = tokenInput.current.value;
+        if (!token?.length) return;
+        if (token?.length) {
+            setIsLoading(true);
             const authHeader = { headers: { Authorization: `bearer ${token}` } };
-
             const isValidToken = await fetch(`api/listOrganizations`, authHeader);
 
-            if (!isValidToken.ok) return;
+            if (!isValidToken.ok) {
+                setIsLoading(false);
+                return;
+            }
 
             await fetch(`api/tokenCookie`, authHeader);
-            Router.replace("/setup");
+            Router.push("/setup");
         }
     };
 
     return (
-        <div>
-            Login
-            <form>
-                <input name="token" ref={tokenInput} type="text" placeholder="token"></input>
-                <button onClick={handleTokenSubmit} type="button">
-                    Go!
-                </button>
-            </form>
-        </div>
+        <StyledPage>
+            <Title>
+                <h1>Setup Access Token</h1>
+                <h3>
+                    Enter your Abstract personal access token. Don&apos;t have one yet? You can
+                    generate a personal access token right here.
+                </h3>
+            </Title>
+            <Body>
+                <Input
+                    placeholder="Your access token"
+                    onChange={e => setToken(e.target.value)}
+                    value={token}
+                />
+                <Button disabled={isLoading} type="button" onClick={handleTokenSubmit}>
+                    {isLoading ? (
+                        <LoadingDots color="#9A9A9A" size={3}>
+                            Loading
+                        </LoadingDots>
+                    ) : (
+                        " Submit Token"
+                    )}
+                </Button>
+            </Body>
+        </StyledPage>
     );
 };
 
@@ -40,5 +64,34 @@ Login.getInitialProps = async ctx => {
     if (token) Redirect(ctx, "/setup");
     return {};
 };
+
+const StyledPage = styled.div`
+    display: flex;
+    width: 720px;
+    height: 100vh;
+    justify-content: center;
+    flex-direction: column;
+`;
+const Title = styled.div`
+    margin: 0 0 3em 0;
+    h1 {
+        font-size: 3.8em;
+    }
+    h3 {
+        font-size: 1.6em;
+        font-weight: 300;
+        line-height: 1.6em;
+    }
+`;
+
+const Body = styled.div`
+    display: flex;
+    flex-direction: row;
+
+    & div {
+        margin: 0 30px 0 0;
+        flex: 5;
+    }
+`;
 
 export default Login;

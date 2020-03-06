@@ -48,27 +48,18 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         Router.push(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
     };
 
-    const loaderAnim = useSpring({
+    const bodyAnim = useSpring({
         from: {
-            transform: "translateX(-20px)",
-            opacity: 0
+            opacity: 0,
+            transform: "translateX(-20px)"
         },
         to: {
-            transform: orgs ? "translateX(20px)" : "translateX(0px)",
-            opacity: orgs ? 0 : 1
+            opacity: !orgs ? 0 : 1,
+            transform: orgs ? "translateX(0px)" : "translateX(-20px)"
         }
     });
-    const bodyAnim = useSpring({
-        opacity: !orgs ? 0 : 1,
-        transform: orgs ? "translateX(0px)" : "translateX(-20px)"
-    });
 
-    if (!orgs && !sections)
-        return (
-            <StyledLoader style={loaderAnim}>
-                <Loader centered />
-            </StyledLoader>
-        );
+    if (!orgs && !sections) return <Loader centered />;
 
     const inputChangeHandler = ({ item, type }) => {
         changeHandler({ type: type, id: item.id, name: item.name });
@@ -111,11 +102,6 @@ Setup.getInitialProps = async (ctx: NextPageContext) => {
     return { token };
 };
 
-const StyledLoader = styled(animated.div)`
-    display: flex;
-    width: 100vw;
-    justify-content: center;
-`;
 const StyledPage = styled(animated.div)`
     display: flex;
     width: 720px;

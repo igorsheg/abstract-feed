@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, LegacyRef, forwardRef, useRef } from "react";
 import Trigger from "rc-trigger";
 import styled from "styled-components";
 import { ArrowDown } from "../../../lib/Icons";
@@ -9,6 +9,7 @@ type DropdownProps = {
     onChange?: (e?) => void;
     withArrow?: boolean;
     disabled?: boolean;
+    placeholder?: string;
 };
 
 const Dropdown = ({ options, onChange }) => {
@@ -22,12 +23,24 @@ const Dropdown = ({ options, onChange }) => {
         </StyledDropdown>
     );
 };
-const Input: FC<DropdownProps> = ({ options, value, onChange, withArrow, disabled }) => {
+const Input: FC<DropdownProps> = ({
+    options,
+    value,
+    onChange,
+    withArrow,
+    disabled,
+    placeholder
+}) => {
     if (!options?.length || disabled)
         return (
             <StyledInput disabled={disabled}>
                 {withArrow && <ArrowDown size={24} />}
-                <input disabled={disabled} onChange={e => console.log(e)} value={value} />
+                <input
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    disabled={disabled}
+                    value={value}
+                />
             </StyledInput>
         );
     return (
@@ -43,7 +56,12 @@ const Input: FC<DropdownProps> = ({ options, value, onChange, withArrow, disable
                     offset: [0, 3]
                 }}
             >
-                <input disabled={disabled} onChange={e => console.log(e)} value={value} />
+                <input
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    disabled={disabled}
+                    value={value}
+                />
             </Trigger>
             {withArrow && <ArrowDown size={24} />}
         </StyledInput>
