@@ -13,6 +13,7 @@ import Button from "../components/Button";
 import Flex from "../components/Flex";
 import styled from "styled-components";
 import Input from "../components/Input";
+import Loader from "../components/Loader";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store", { initialData: feedSettings });
@@ -46,7 +47,7 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         Router.push(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
     };
 
-    if (!orgs) return null;
+    if (!orgs && !sections) return <Loader centered />;
 
     const inputChangeHandler = ({ item, type }) => {
         changeHandler({ type: type, id: item.id, name: item.name });

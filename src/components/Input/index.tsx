@@ -60,7 +60,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         height: 100%;
         width: 100%;
         border-radius: 4px;
-        border: 1px solid ${props => props.theme.D40};
+        border: 1px solid ${props => props.theme.D50};
         font-size: 14px;
         margin: 0;
         padding: 0 18px;
@@ -68,7 +68,8 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         color: ${props => props.theme.D10};
 
         &:hover {
-            border: 1px solid ${props => props.theme.D30};
+            /* border: 1px solid ${props => props.theme.D40}; */
+            background: ${props => props.theme.D70};
         }
 
         &:focus {
