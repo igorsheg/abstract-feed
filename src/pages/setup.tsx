@@ -14,6 +14,7 @@ import Flex from "../components/Flex";
 import styled from "styled-components";
 import Input from "../components/Input";
 import Loader from "../components/Loader";
+import { animated, useSpring } from "react-spring";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store", { initialData: feedSettings });
@@ -47,14 +48,34 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         Router.push(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
     };
 
-    if (!orgs && !sections) return <Loader centered />;
+    const loaderAnim = useSpring({
+        from: {
+            transform: "translateX(-20px)",
+            opacity: 0
+        },
+        to: {
+            transform: orgs ? "translateX(20px)" : "translateX(0px)",
+            opacity: orgs ? 0 : 1
+        }
+    });
+    const bodyAnim = useSpring({
+        opacity: !orgs ? 0 : 1,
+        transform: orgs ? "translateX(0px)" : "translateX(-20px)"
+    });
+
+    if (!orgs && !sections)
+        return (
+            <StyledLoader style={loaderAnim}>
+                <Loader centered />
+            </StyledLoader>
+        );
 
     const inputChangeHandler = ({ item, type }) => {
         changeHandler({ type: type, id: item.id, name: item.name });
     };
 
     return (
-        <StyledPage justify="center">
+        <StyledPage style={bodyAnim}>
             <Title>
                 <h1>Setup</h1>
                 <h3>
@@ -90,9 +111,16 @@ Setup.getInitialProps = async (ctx: NextPageContext) => {
     return { token };
 };
 
-const StyledPage = styled(Flex)`
+const StyledLoader = styled(animated.div)`
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+`;
+const StyledPage = styled(animated.div)`
+    display: flex;
     width: 720px;
     height: 100vh;
+    justify-content: center;
     flex-direction: column;
 `;
 const Title = styled.div`

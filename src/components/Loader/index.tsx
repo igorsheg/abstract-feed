@@ -23,7 +23,7 @@ const StlyedLoader = styled.div<{ centered: boolean }>`
     align-self: center;
     letter-spacing: 0.1em;
     padding: 18px 24px;
-    border: 1px solid ${props => props.theme.D50};
+    /* border: 1px solid ${props => props.theme.D50}; */
     ${props =>
         props.centered &&
         ` 
