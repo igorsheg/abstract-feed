@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 import theme from "../../lib/utils/theme";
@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <meta name="apple-mobile-web-app-status-bar-style" content="white" />
             </head>
             <ThemeProvider theme={theme}>
-                {transitions.map(({ item, props, key }) => (
+                {transitions.map(({ props, key }) => (
                     <animated.div key={key} style={props}>
                         <Flex justify="center" align="center">
                             <Component {...pageProps} />

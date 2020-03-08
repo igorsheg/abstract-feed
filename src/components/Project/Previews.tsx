@@ -2,19 +2,17 @@ import React, { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import useFetch from "../../../lib/utils/useFetch";
 import useInterval from "../../../lib/utils/useInterval";
-import { animated, useTransition } from "react-spring";
+import { animated, useTransition, useSpring } from "react-spring";
 import styled from "styled-components";
-import { UiStore } from "../../../lib/store";
-import Loader from "../Loader";
 
-const Previews = ({ collection, project, token }) => {
+const Previews = ({ collection, project, token, collectionSteps }) => {
     const { data: settings } = useSWR("store/settings");
-    const { data: UiState } = useSWR("store/ui", { initialData: UiStore });
     const [currentPreviews, setCurrentPreviews] = useState(null);
+    const [collectionStep, setCollectionStep] = collectionSteps;
 
     const { delays } = settings;
 
-    const [previewStep]: any = useInterval({
+    const [previewStep] = useInterval({
         data: collection.layers,
         delay: delays.previews
     });
@@ -28,8 +26,10 @@ const Previews = ({ collection, project, token }) => {
 
     const fetcher = useFetch(token);
 
-    const { data: previews } = useSWR(["api/getPreviews", collection.id], url =>
-        fetcher(url, previewData)
+    const { data: previews } = useSWR(
+        ["api/getPreviews", collection.id],
+        url => fetcher(url, previewData),
+        { onError: () => setCollectionStep(collectionStep + 1) }
     );
 
     useEffect(() => {
@@ -51,14 +51,16 @@ const Previews = ({ collection, project, token }) => {
         }
     );
 
+    const fadeProps = useSpring({ opacity: !previews ? 0 : 1 });
+
     return (
-        <>
+        <animated.div style={fadeProps}>
             {transitions.map(({ item, props, key }) => (
                 <StyledPreview key={key} style={props}>
                     <img src={`data:image/png;base64,${item.webUrl}`} />
                 </StyledPreview>
             ))}
-        </>
+        </animated.div>
     );
 };
 

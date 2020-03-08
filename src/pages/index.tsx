@@ -10,6 +10,7 @@ import useFetch from "../../lib/utils/useFetch";
 import { UiStore } from "../../lib/store";
 import Loader from "../components/Loader";
 import styled from "styled-components";
+import { useTransition, animated } from "react-spring";
 
 type IndexProps = {
     token: string;
@@ -37,6 +38,13 @@ const Index: NextPage<IndexProps> = props => {
         delay: delays.projects
     });
 
+    if (!projects) return null;
+    const transitions = useTransition(projects[projectSteps], item => item.id, {
+        from: { opacity: 0 },
+        enter: { opacity: 1 },
+        leave: { opacity: 0 }
+    });
+
     return (
         <>
             {isLoading && (
@@ -44,17 +52,35 @@ const Index: NextPage<IndexProps> = props => {
                     <Loader />
                 </CoverLoader>
             )}
-            {projects && (
-                <SingleProject
-                    key={projects[projectSteps].id}
-                    token={token}
-                    projectSteps={[projectSteps, setProjectStep]}
-                    project={projects[projectSteps]}
-                />
+            {transitions.map(
+                ({ props, key }) =>
+                    projects && (
+                        <Wrap key={key} style={props}>
+                            <SingleProject
+                                key={projects[projectSteps].id}
+                                token={token}
+                                projectSteps={[projectSteps, setProjectStep]}
+                                project={projects[projectSteps]}
+                            />
+                        </Wrap>
+                    )
             )}
         </>
     );
 };
+
+const Wrap = styled(animated.div)`
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: ${props => props.theme.D80};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 991;
+`;
 
 const CoverLoader = styled.div`
     width: 100vw;

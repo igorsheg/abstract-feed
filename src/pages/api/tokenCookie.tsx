@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
 
-const isDev = process.env.NODE_ENV !== "production";
-
 export default (req: NextApiRequest, res: NextApiResponse) => {
     const headers = req.headers.authorization;
     const token = headers?.split("bearer ")[1];

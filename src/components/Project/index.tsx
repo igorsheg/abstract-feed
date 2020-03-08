@@ -1,13 +1,10 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Project } from "abstract-sdk";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import useInterval from "../../../lib/utils/useInterval";
 import Previews from "./Previews";
 import useFetch from "../../../lib/utils/useFetch";
 import styled from "styled-components";
-import Loader from "../Loader";
-import { UiStore } from "../../../lib/store";
-import { useTransition, animated } from "react-spring";
 
 interface ProjectProps {
     project: Project;
@@ -18,9 +15,8 @@ interface ProjectProps {
 const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     const [pSteps, setProjectStep] = projectSteps;
     const { data: settings } = useSWR("store/settings");
-    const { data: UiState } = useSWR("store/ui");
-
     const { delays } = settings;
+    const [currentCollection, setCurrentCollection] = useState(null);
 
     const fetcher = useFetch(token);
 
@@ -29,21 +25,18 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     );
 
     useEffect(() => {
-        if (collections && !collections.length) return setProjectStep(pSteps + 1);
+        if (collections) {
+            if (!collections.length) {
+                return setProjectStep(pSteps + 1);
+            }
+            setCurrentCollection(collections);
+        }
     }, [collections]);
 
-    const [collectionStep] = useInterval({
+    const [collectionStep, setCollectionStep] = useInterval({
         data: collections,
         delay: delays.collections
     });
-
-    useEffect(() => {
-        if (!collections) {
-            mutate("store/ui", { isLoading: true });
-        } else {
-            mutate("store/ui", { isLoading: false });
-        }
-    }, [collections]);
 
     return (
         <StyledProject>
@@ -57,8 +50,9 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
             {collections && (
                 <Previews
                     token={token}
+                    collectionSteps={[collectionStep, setCollectionStep]}
                     project={project}
-                    collection={collections[collectionStep]}
+                    collection={collections ? collections[collectionStep] : currentCollection}
                 />
             )}
         </StyledProject>
