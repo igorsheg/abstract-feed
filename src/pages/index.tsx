@@ -11,7 +11,7 @@ import useFetch from "../../lib/utils/useFetch";
 import { UiStore } from "../../lib/store";
 import Loader from "../components/Loader";
 import styled from "styled-components";
-import { useTransition, animated, useSpring } from "react-spring";
+import { animated, useSpring } from "react-spring";
 
 type IndexProps = {
     token: string;
@@ -45,18 +45,9 @@ const Index: NextPage<IndexProps> = props => {
 
     if (!projects) return null;
 
-    const transitions = useTransition(projects[projectSteps], item => item.id, {
-        from: { opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 }
-    });
-
     const lodaerAnimProps = useSpring({
-        from: { opacity: 1, display: "flex" },
-        to: {
-            display: !isLoading ? "none" : "flex",
-            opacity: !isLoading ? 0 : 1
-        }
+        opacity: isLoading ? 1 : 0,
+        display: isLoading ? "flex" : "none"
     });
 
     return (
@@ -64,19 +55,14 @@ const Index: NextPage<IndexProps> = props => {
             <CoverLoader style={lodaerAnimProps}>
                 <Loader />
             </CoverLoader>
-            {transitions.map(
-                ({ props, key, item }) =>
-                    item && (
-                        <Wrap key={key} style={props}>
-                            <SingleProject
-                                key={projects[projectSteps].id}
-                                token={token}
-                                projectSteps={[projectSteps, setProjectStep]}
-                                project={projects[projectSteps]}
-                            />
-                        </Wrap>
-                    )
-            )}
+            <Wrap>
+                <SingleProject
+                    key={projects[projectSteps].id}
+                    token={token}
+                    projectSteps={[projectSteps, setProjectStep]}
+                    project={projects[projectSteps]}
+                />
+            </Wrap>
         </>
     );
 };

@@ -5,6 +5,7 @@ import useInterval from "../../../lib/utils/useInterval";
 import Previews from "./Previews";
 import useFetch from "../../../lib/utils/useFetch";
 import styled from "styled-components";
+import { animated, useSpring } from "react-spring";
 
 interface ProjectProps {
     project: Project;
@@ -15,6 +16,7 @@ interface ProjectProps {
 const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     const [pSteps, setProjectStep] = projectSteps;
     const { data: settings } = useSWR("store/settings");
+    const [isMounted, setisMounted] = useState(false);
     const [currentCollection, setCurrentCollection] = useState(null);
     const { delays } = settings;
 
@@ -38,9 +40,16 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
         delay: delays.collections
     });
 
+    useEffect(() => {
+        setisMounted(true);
+        return () => setisMounted(false);
+    }, []);
+
+    const fadeProps = useSpring({ opacity: isMounted ? 1 : 0 });
+
     return (
         <StyledProject>
-            <ProjectData>
+            <ProjectData style={fadeProps}>
                 <img src={project.createdByUser.avatarUrl} />
                 <div>
                     <h1>{project.name}</h1>
@@ -63,7 +72,7 @@ const StyledProject = styled.div`
     height: 100vh;
     display: flex;
 `;
-const ProjectData = styled.div`
+const ProjectData = styled(animated.div)`
     z-index: 91;
     position: absolute;
     bottom: 0;
@@ -99,6 +108,7 @@ const ProjectData = styled.div`
     }
     h2 {
         font-size: 18px;
+        font-weight: 400;
         margin: 1em 0 0 0;
     }
     img {
