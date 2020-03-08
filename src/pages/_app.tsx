@@ -11,15 +11,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
 
     const transitions = useTransition(router, item => item.pathname, {
-        from: { opacity: 0, transform: "translateX(-20px)" },
-        enter: { opacity: 1, transform: "translateX(0px)" },
-        leave: { opacity: 0, transform: "translateX(20px)" }
+        from: { opacity: 0 },
+        enter: { opacity: 1 },
+        leave: { opacity: 0 }
     });
 
     return (
         <>
             <GlobalStyle />
             <head>
+                <link
+                    rel="stylesheet"
+                    as="font"
+                    href="https://rsms.me/inter/inter.css"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                ></link>
                 <meta
                     name="viewport"
                     content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover"
