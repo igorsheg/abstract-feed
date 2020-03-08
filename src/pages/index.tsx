@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, Suspense } from "react";
+import React from "react";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
 import { NextPage, NextPageContext } from "next";

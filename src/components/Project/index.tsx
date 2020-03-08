@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, Suspense } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Project } from "abstract-sdk";
 import useSWR from "swr";
 import useInterval from "../../../lib/utils/useInterval";
@@ -33,7 +33,7 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
         }
     }, [collections]);
 
-    const [collectionStep, setCollectionStep] = useInterval({
+    const [collectionStep] = useInterval({
         data: collections,
         delay: delays.collections
     });
@@ -50,7 +50,6 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
             {collections && (
                 <Previews
                     token={token}
-                    collectionSteps={[collectionStep, setCollectionStep]}
                     project={project}
                     collection={collections ? collections[collectionStep] : currentCollection}
                 />

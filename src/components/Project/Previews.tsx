@@ -5,10 +5,9 @@ import useInterval from "../../../lib/utils/useInterval";
 import { animated, useTransition, useSpring } from "react-spring";
 import styled from "styled-components";
 
-const Previews = ({ collection, project, token, collectionSteps }) => {
+const Previews = ({ collection, project, token }) => {
     const { data: settings } = useSWR("store/settings");
     const [currentPreviews, setCurrentPreviews] = useState(null);
-    const [collectionStep, setCollectionStep] = collectionSteps;
 
     const { delays } = settings;
 

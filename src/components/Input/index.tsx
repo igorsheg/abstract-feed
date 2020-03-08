@@ -1,10 +1,11 @@
-import React, { FC, LegacyRef, forwardRef, useRef } from "react";
+import React, { FC } from "react";
 import Trigger from "rc-trigger";
 import styled from "styled-components";
 import { ArrowDown } from "../../../lib/Icons";
+import { Organization, Collection } from "abstract-sdk";
 
 type DropdownProps = {
-    options?: any[];
+    options?: Organization[] | Collection[];
     value: string;
     onChange?: (e?) => void;
     withArrow?: boolean;
