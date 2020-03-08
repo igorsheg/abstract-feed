@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";

@@ -17,7 +17,10 @@ type IndexProps = {
 
 const Index: NextPage<IndexProps> = props => {
     const { token, organizationId, sectionId } = props;
-    const delay = 1000 * 30;
+    const { data: settings } = useSWR("store");
+    const { delays } = settings;
+
+    // const delay = 1000 * 30;
 
     const fetcher = useFetch(token);
 
@@ -28,10 +31,10 @@ const Index: NextPage<IndexProps> = props => {
 
     const [projectSteps, setProjectStep]: any = useInterval({
         data: projects,
-        delay
+        delay: delays.projects
     });
 
-    if (!projects) return <Loader />;
+    if (!projects) return null;
 
     return (
         <SingleProject
@@ -42,9 +45,9 @@ const Index: NextPage<IndexProps> = props => {
         />
     );
 };
+
 Index.getInitialProps = async (ctx: NextPageContext): Promise<IndexProps> => {
     const { token } = nextCookie(ctx);
-
     const { sectionId, organizationId } = ctx.query;
 
     if (!token || !sectionId || !organizationId) {

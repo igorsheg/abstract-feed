@@ -6,6 +6,11 @@ const feedSettings = {
     organization: {
         id: null,
         name: null
+    },
+    delays: {
+        projects: 60 * 1000,
+        collections: (60 * 1000) / 3,
+        previews: (60 * 1000) / 3 / 3
     }
 };
 
