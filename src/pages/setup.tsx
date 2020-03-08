@@ -15,7 +15,7 @@ import Loader from "../components/Loader";
 import { animated, useSpring } from "react-spring";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
-    const { data: settings } = useSWR("store", { initialData: feedSettings });
+    const { data: settings } = useSWR("store/settings", { initialData: feedSettings });
     const { section, organization } = settings;
 
     const fetcher = useFetch(token);
@@ -29,17 +29,20 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
 
     useEffect(() => {
         if (orgs?.length)
-            mutate("store", { ...settings, organization: { id: orgs[0].id, name: orgs[0].name } });
+            mutate("store/settings", {
+                ...settings,
+                organization: { id: orgs[0].id, name: orgs[0].name }
+            });
     }, [orgs]);
 
     useEffect(() => {
         const id = sections?.length ? sections[0].id : null;
         const name = sections?.length ? sections[0].name : "No sections";
-        mutate("store", { ...settings, section: { id, name } });
+        mutate("store/settings", { ...settings, section: { id, name } });
     }, [sections]);
 
     const changeHandler = ({ type, id, name }) => {
-        mutate("store", { ...settings, [type]: { id, name } });
+        mutate("store/settings", { ...settings, [type]: { id, name } });
     };
 
     const clickHandler = () => {

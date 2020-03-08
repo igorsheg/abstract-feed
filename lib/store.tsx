@@ -14,4 +14,7 @@ const feedSettings = {
     }
 };
 
-export { feedSettings };
+const UiStore = {
+    isLoading: true
+};
+export { feedSettings, UiStore };

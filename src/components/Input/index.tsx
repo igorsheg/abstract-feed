@@ -108,7 +108,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
 `;
 const StyledDropdown = styled.ul`
     max-height: 200px;
-    overflow: scroll;
+    overflow-y: scroll;
     box-shadow: rgba(0, 0, 0, 0.0470588) 0px 0px 0px 1px, rgba(0, 0, 0, 0.0784314) 0px 4px 8px,
         rgba(0, 0, 0, 0.0784314) 0px 2px 4px;
     list-style: none;

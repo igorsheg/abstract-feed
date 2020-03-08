@@ -7,7 +7,9 @@ import useSWR from "swr";
 import SingleProject from "../components/Project";
 import useInterval from "../../lib/utils/useInterval";
 import useFetch from "../../lib/utils/useFetch";
+import { UiStore } from "../../lib/store";
 import Loader from "../components/Loader";
+import styled from "styled-components";
 
 type IndexProps = {
     token: string;
@@ -17,10 +19,11 @@ type IndexProps = {
 
 const Index: NextPage<IndexProps> = props => {
     const { token, organizationId, sectionId } = props;
-    const { data: settings } = useSWR("store");
+    const { data: settings } = useSWR("store/settings");
     const { delays } = settings;
 
-    // const delay = 1000 * 30;
+    const { data: UiState } = useSWR("store/ui", { initialData: UiStore });
+    const { isLoading } = UiState;
 
     const fetcher = useFetch(token);
 
@@ -34,17 +37,37 @@ const Index: NextPage<IndexProps> = props => {
         delay: delays.projects
     });
 
-    if (!projects) return null;
-
     return (
-        <SingleProject
-            key={projects[projectSteps].id}
-            token={token}
-            projectSteps={[projectSteps, setProjectStep]}
-            project={projects[projectSteps]}
-        />
+        <>
+            {isLoading && (
+                <CoverLoader>
+                    <Loader />
+                </CoverLoader>
+            )}
+            {projects && (
+                <SingleProject
+                    key={projects[projectSteps].id}
+                    token={token}
+                    projectSteps={[projectSteps, setProjectStep]}
+                    project={projects[projectSteps]}
+                />
+            )}
+        </>
     );
 };
+
+const CoverLoader = styled.div`
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: ${props => props.theme.D80};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999991;
+`;
 
 Index.getInitialProps = async (ctx: NextPageContext): Promise<IndexProps> => {
     const { token } = nextCookie(ctx);

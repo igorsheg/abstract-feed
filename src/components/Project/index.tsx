@@ -5,6 +5,8 @@ import useInterval from "../../../lib/utils/useInterval";
 import Previews from "./Previews";
 import useFetch from "../../../lib/utils/useFetch";
 import styled from "styled-components";
+import Loader from "../Loader";
+import { UiStore } from "../../../lib/store";
 
 interface ProjectProps {
     project: Project;
@@ -14,7 +16,8 @@ interface ProjectProps {
 
 const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     const [pSteps, setProjectStep] = projectSteps;
-    const { data: settings } = useSWR("store");
+    const { data: settings } = useSWR("store/settings");
+
     const { delays } = settings;
 
     const fetcher = useFetch(token);
@@ -28,8 +31,6 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
             if (!collections.length) return setProjectStep(pSteps + 1);
         }
     }, [collections]);
-
-    if (!collections?.length) return null;
 
     const [collectionStep] = useInterval({
         data: collections,
@@ -45,7 +46,13 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
                     <h2>{project.about}</h2>
                 </div>
             </ProjectData>
-            <Previews token={token} project={project} collection={collections[collectionStep]} />
+            {collections?.length && (
+                <Previews
+                    token={token}
+                    project={project}
+                    collection={collections[collectionStep]}
+                />
+            )}
         </StyledProject>
     );
 };
@@ -56,7 +63,7 @@ const StyledProject = styled.div`
     display: flex;
 `;
 const ProjectData = styled.div`
-    z-index: 991;
+    z-index: 91;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -65,7 +72,7 @@ const ProjectData = styled.div`
     flex-direction: row;
     align-items: center;
     padding: 0 6em;
-    height: 40vh;
+    height: 30vh;
     background: linear-gradient(
         to bottom,
         hsla(0, 0%, 0%, 0) 0%,

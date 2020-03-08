@@ -17,6 +17,7 @@ const StlyedLoader = styled.div<{ centered: boolean }>`
     text-transform: uppercase;
     font-weight: 600;
     display: flex;
+    z-index: 999991;
     justify-content: center;
     align-items: center;
     position: relative;

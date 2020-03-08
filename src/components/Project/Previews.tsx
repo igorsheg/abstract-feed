@@ -1,12 +1,14 @@
-import React from "react";
-import useSWR from "swr";
+import React, { useEffect } from "react";
+import useSWR, { mutate } from "swr";
 import useFetch from "../../../lib/utils/useFetch";
 import useInterval from "../../../lib/utils/useInterval";
 import { animated, useTransition } from "react-spring";
 import styled from "styled-components";
 
 const Previews = ({ collection, project, token }) => {
-    const { data: settings } = useSWR("store");
+    const { data: settings } = useSWR("store/settings");
+    const { data: UiState } = useSWR("store/ui");
+
     const { delays } = settings;
 
     const [previewStep]: any = useInterval({
@@ -26,6 +28,12 @@ const Previews = ({ collection, project, token }) => {
     const { data: previews } = useSWR(["api/getPreviews", collection.id], url =>
         fetcher(url, previewData)
     );
+
+    useEffect(() => {
+        if (previews) {
+            mutate("store/ui", { isLoading: false });
+        }
+    }, [previews]);
 
     if (!previews) return null;
 
