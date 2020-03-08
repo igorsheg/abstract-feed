@@ -4,16 +4,18 @@ import useFetch from "../../../lib/utils/useFetch";
 import useInterval from "../../../lib/utils/useInterval";
 import { animated, useTransition } from "react-spring";
 import styled from "styled-components";
+import { UiStore } from "../../../lib/store";
 
 const Previews = ({ collection, project, token }) => {
     const { data: settings } = useSWR("store/settings");
-    const { data: UiState } = useSWR("store/ui");
+    const { data: UiState } = useSWR("store/ui", { initialData: UiStore });
 
     const { delays } = settings;
 
     const [previewStep]: any = useInterval({
         data: collection.layers,
-        delay: delays.previews
+        delay: delays.previews,
+        isLoading: UiState.isLoading
     });
 
     const previewData = {
@@ -32,8 +34,14 @@ const Previews = ({ collection, project, token }) => {
     useEffect(() => {
         if (previews) {
             mutate("store/ui", { isLoading: false });
+        } else if (!previews) {
+            mutate("store/ui", { isLoading: true });
         }
     }, [previews]);
+
+    useEffect(() => {
+        console.log(UiState);
+    }, [UiState]);
 
     if (!previews) return null;
 

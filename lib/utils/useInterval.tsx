@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 
-const useInterval = ({ data, delay }): [number, (x: number) => void] => {
+const useInterval = ({ data, delay, isLoading }): [number, (x: number) => void] => {
     const [step, setStep] = useState(0);
 
     useEffect(() => {
+        if (isLoading) {
+            const interval = setInterval(() => setStep(0), delay);
+            return () => clearInterval(interval);
+        }
         if (data) {
             const lastProject = step === data.length - 1;
 
@@ -15,7 +19,7 @@ const useInterval = ({ data, delay }): [number, (x: number) => void] => {
             const interval = setInterval(() => setStep(step + 1), delay);
             return () => clearInterval(interval);
         }
-    }, [step, data]);
+    }, [step, data, isLoading]);
 
     return [step, setStep];
 };

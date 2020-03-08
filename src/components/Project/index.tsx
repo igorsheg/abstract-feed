@@ -7,6 +7,7 @@ import useFetch from "../../../lib/utils/useFetch";
 import styled from "styled-components";
 import Loader from "../Loader";
 import { UiStore } from "../../../lib/store";
+import { useTransition, animated } from "react-spring";
 
 interface ProjectProps {
     project: Project;
@@ -17,6 +18,7 @@ interface ProjectProps {
 const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     const [pSteps, setProjectStep] = projectSteps;
     const { data: settings } = useSWR("store/settings");
+    const { data: UiState } = useSWR("store/ui");
 
     const { delays } = settings;
 
@@ -34,7 +36,14 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
 
     const [collectionStep] = useInterval({
         data: collections,
-        delay: delays.collections
+        delay: delays.collections,
+        isLoading: !UiState ? true : UiState.isLoading
+    });
+
+    const transitions = useTransition(collections?.length, null, {
+        from: { opacity: 0, transform: "translateX(-20px)" },
+        enter: { opacity: 1, transform: "translateX(0px)" },
+        leave: { opacity: 0, transform: "translateX(20px)" }
     });
 
     return (
@@ -46,13 +55,25 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
                     <h2>{project.about}</h2>
                 </div>
             </ProjectData>
-            {collections?.length && (
+            {transitions.map(
+                ({ item, props, key }) =>
+                    item && (
+                        <animated.div key={key} style={props}>
+                            <Previews
+                                token={token}
+                                project={project}
+                                collection={collections[collectionStep]}
+                            />
+                        </animated.div>
+                    )
+            )}
+            {/* {collections && (
                 <Previews
                     token={token}
                     project={project}
                     collection={collections[collectionStep]}
                 />
-            )}
+            )} */}
         </StyledProject>
     );
 };
