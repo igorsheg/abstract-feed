@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
 import { NextPage, NextPageContext } from "next";
@@ -44,6 +44,10 @@ const Index: NextPage<IndexProps> = props => {
         enter: { opacity: 1 },
         leave: { opacity: 0 }
     });
+
+    useEffect(() => {
+        console.log(projectSteps);
+    }, [projectSteps]);
 
     return (
         <>
