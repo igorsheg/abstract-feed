@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
 import { NextPage, NextPageContext } from "next";
@@ -10,7 +11,7 @@ import useFetch from "../../lib/utils/useFetch";
 import { UiStore } from "../../lib/store";
 import Loader from "../components/Loader";
 import styled from "styled-components";
-import { useTransition, animated } from "react-spring";
+import { useTransition, animated, useSpring } from "react-spring";
 
 type IndexProps = {
     token: string;
@@ -31,7 +32,10 @@ const Index: NextPage<IndexProps> = props => {
     const { data: projects } = useSWR(
         organizationId ? ["api/listProjects", organizationId, sectionId] : null,
         (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId }),
-        { refreshInterval: delays.refresh, onError: e => console.log("Error in Projects!", e) }
+        {
+            refreshInterval: delays.refresh,
+            onError: e => console.log("Error in Projects!", e)
+        }
     );
 
     const [projectSteps, setProjectStep]: any = useInterval({
@@ -40,26 +44,29 @@ const Index: NextPage<IndexProps> = props => {
     });
 
     if (!projects) return null;
+
     const transitions = useTransition(projects[projectSteps], item => item.id, {
         from: { opacity: 0 },
         enter: { opacity: 1 },
         leave: { opacity: 0 }
     });
 
-    useEffect(() => {
-        console.log(projectSteps, projects);
-    }, [projects, projectSteps]);
+    const lodaerAnimProps = useSpring({
+        from: { opacity: 1, display: "flex" },
+        to: {
+            display: !isLoading ? "none" : "flex",
+            opacity: !isLoading ? 0 : 1
+        }
+    });
 
     return (
         <>
-            {isLoading && (
-                <CoverLoader>
-                    <Loader />
-                </CoverLoader>
-            )}
+            <CoverLoader style={lodaerAnimProps}>
+                <Loader />
+            </CoverLoader>
             {transitions.map(
-                ({ props, key }) =>
-                    projects && (
+                ({ props, key, item }) =>
+                    item && (
                         <Wrap key={key} style={props}>
                             <SingleProject
                                 key={projects[projectSteps].id}
@@ -87,7 +94,7 @@ const Wrap = styled(animated.div)`
     z-index: 991;
 `;
 
-const CoverLoader = styled.div`
+const CoverLoader = styled(animated.div)`
     width: 100vw;
     height: 100vh;
     position: absolute;

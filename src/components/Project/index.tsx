@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, Suspense } from "react";
 import { Project } from "abstract-sdk";
 import useSWR from "swr";
 import useInterval from "../../../lib/utils/useInterval";
@@ -15,8 +15,8 @@ interface ProjectProps {
 const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     const [pSteps, setProjectStep] = projectSteps;
     const { data: settings } = useSWR("store/settings");
-    const { delays } = settings;
     const [currentCollection, setCurrentCollection] = useState(null);
+    const { delays } = settings;
 
     const fetcher = useFetch(token);
 
