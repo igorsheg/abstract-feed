@@ -39,10 +39,6 @@ const Previews = ({ collection, project, token }) => {
         }
     }, [previews]);
 
-    useEffect(() => {
-        if (!previews && currentPreviews) console.log(currentPreviews);
-    }, [currentPreviews, previews]);
-
     if (!previews && !currentPreviews) return null;
 
     const transitions = useTransition(
