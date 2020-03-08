@@ -8,7 +8,8 @@ const feedSettings = {
         name: null
     },
     delays: {
-        projects: 3 * 1000,
+        refresh: 60 * 60 * 1000,
+        projects: 60 * 1000,
         collections: (60 * 1000) / 3,
         previews: (60 * 1000) / 3 / 3
     }

@@ -30,7 +30,8 @@ const Index: NextPage<IndexProps> = props => {
 
     const { data: projects } = useSWR(
         organizationId ? ["api/listProjects", organizationId, sectionId] : null,
-        (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId })
+        (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId }),
+        { refreshInterval: delays.refresh }
     );
 
     const [projectSteps, setProjectStep]: any = useInterval({
@@ -46,8 +47,8 @@ const Index: NextPage<IndexProps> = props => {
     });
 
     useEffect(() => {
-        console.log(projectSteps);
-    }, [projectSteps]);
+        console.log(projectSteps, projects);
+    }, [projects, projectSteps]);
 
     return (
         <>

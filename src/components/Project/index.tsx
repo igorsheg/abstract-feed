@@ -103,6 +103,8 @@ const ProjectData = styled.div`
         margin: 1em 0 0 0;
     }
     img {
+        min-width: 66px;
+        min-height: 66px;
         width: 66px;
         height: 66px;
         border-radius: 66px;
