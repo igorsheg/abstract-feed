@@ -29,7 +29,7 @@ const Previews = ({ collection, project, token, collectionSteps }) => {
     const { data: previews } = useSWR(
         ["api/getPreviews", collection.id],
         url => fetcher(url, previewData),
-        { onError: () => setCollectionStep(collectionStep + 1) }
+        { onError: e => console.log("Error in Previews", e) }
     );
 
     useEffect(() => {

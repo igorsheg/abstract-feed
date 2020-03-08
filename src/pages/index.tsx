@@ -31,7 +31,7 @@ const Index: NextPage<IndexProps> = props => {
     const { data: projects } = useSWR(
         organizationId ? ["api/listProjects", organizationId, sectionId] : null,
         (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId }),
-        { refreshInterval: delays.refresh }
+        { refreshInterval: delays.refresh, onError: e => console.log("Error in Projects!", e) }
     );
 
     const [projectSteps, setProjectStep]: any = useInterval({
