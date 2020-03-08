@@ -73,14 +73,21 @@ const StyledPage = styled.div`
     flex-direction: column;
 `;
 const Title = styled.div`
-    margin: 0 0 3em 0;
+    margin: 0 0 0 0;
+    border: 2px solid ${props => props.theme.D50};
+    border-bottom: none;
     h1 {
         font-size: 3.8em;
+        margin: 0;
+        border-bottom: 2px solid ${props => props.theme.D50};
+        padding: 36px;
     }
     h3 {
-        font-size: 1.6em;
+        font-size: 20px;
         font-weight: 300;
         line-height: 1.6em;
+        margin: 0;
+        padding: 36px;
     }
 `;
 
@@ -89,7 +96,6 @@ const Body = styled.div`
     flex-direction: row;
 
     & div {
-        margin: 0 30px 0 0;
         flex: 5;
     }
 `;

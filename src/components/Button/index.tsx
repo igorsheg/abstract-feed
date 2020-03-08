@@ -9,10 +9,10 @@ const Button = styled.button`
     background: ${props => props.theme.B10};
     color: ${props => props.theme.D10};
     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: 16px;
     font-weight: 600;
-    height: 54px;
+    height: 66px;
     text-decoration: none;
     flex-shrink: 0;
     outline: none;

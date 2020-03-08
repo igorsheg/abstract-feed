@@ -72,16 +72,16 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
     position: relative;
     display: flex;
     align-items: center;
-    height: 54px;
+    height: 66px;
 
     input {
         height: 100%;
         width: 100%;
-        border-radius: 4px;
-        border: 1px solid ${props => props.theme.D50};
-        font-size: 14px;
+        border-radius: 0;
+        border: 2px solid ${props => props.theme.D50};
+        font-size: 16px;
         margin: 0;
-        padding: 0 18px;
+        padding: 0 21px;
         background: ${props => props.theme.D80};
         color: ${props => props.theme.D10};
 
@@ -90,11 +90,12 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         }
 
         &:focus {
-            border: 1px solid ${props => props.theme.D10};
+            border: 2px solid ${props => props.theme.D10};
             outline: none;
+            z-index: 91;
         }
         &:disabled {
-            border: 1px solid ${props => props.theme.D50};
+            border: 2px solid ${props => props.theme.D50};
             color: ${props => props.theme.D30};
         }
     }
@@ -103,6 +104,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         position: absolute;
         right: 12px;
         pointer-events: none;
+        z-index: 991;
         fill: ${props => (props.disabled ? props.theme.D50 : props.theme.D10)};
     }
 `;

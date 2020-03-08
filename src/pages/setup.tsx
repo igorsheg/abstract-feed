@@ -51,12 +51,10 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
 
     const bodyAnim = useSpring({
         from: {
-            opacity: 0,
-            transform: "translateX(-20px)"
+            opacity: 0
         },
         to: {
-            opacity: !orgs ? 0 : 1,
-            transform: orgs ? "translateX(0px)" : "translateX(-20px)"
+            opacity: !orgs ? 0 : 1
         }
     });
 
@@ -111,14 +109,23 @@ const StyledPage = styled(animated.div)`
     flex-direction: column;
 `;
 const Title = styled.div`
-    margin: 0 0 3em 0;
+    margin: 0 0 0 0;
+    border: 2px solid ${props => props.theme.D50};
+    border-bottom: none;
     h1 {
         font-size: 3.8em;
+        margin: 0;
+        padding: 36px;
+
+        border-bottom: 2px solid ${props => props.theme.D50};
     }
     h3 {
-        font-size: 1.6em;
+        font-size: 20px;
         font-weight: 300;
+        padding: 36px;
+
         line-height: 1.6em;
+        margin: 0;
     }
 `;
 
@@ -126,9 +133,17 @@ const Body = styled.div`
     display: flex;
     flex-direction: row;
 
-    & div {
-        margin: 0 30px 0 0;
+    button {
+        z-index: 91;
+    }
+
+    div {
+        margin: 0;
         flex: 5;
+
+        &:nth-child(2) {
+            margin: 0 0px 0 -1px;
+        }
     }
 `;
 
