@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Project } from "abstract-sdk";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import useInterval from "../../../lib/utils/useInterval";
 import Previews from "./Previews";
 import useFetch from "../../../lib/utils/useFetch";
@@ -29,22 +29,21 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
     );
 
     useEffect(() => {
-        if (collections) {
-            if (!collections.length) return setProjectStep(pSteps + 1);
-        }
+        if (collections && !collections.length) return setProjectStep(pSteps + 1);
     }, [collections]);
 
     const [collectionStep] = useInterval({
         data: collections,
-        delay: delays.collections,
-        isLoading: !UiState ? true : UiState.isLoading
+        delay: delays.collections
     });
 
-    const transitions = useTransition(collections?.length, null, {
-        from: { opacity: 0, transform: "translateX(-20px)" },
-        enter: { opacity: 1, transform: "translateX(0px)" },
-        leave: { opacity: 0, transform: "translateX(20px)" }
-    });
+    useEffect(() => {
+        if (!collections) {
+            mutate("store/ui", { isLoading: true });
+        } else {
+            mutate("store/ui", { isLoading: false });
+        }
+    }, [collections]);
 
     return (
         <StyledProject>
@@ -52,28 +51,16 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
                 <img src={project.createdByUser.avatarUrl} />
                 <div>
                     <h1>{project.name}</h1>
-                    <h2>{project.about}</h2>
+                    {project.about && <h2>{project.about}</h2>}
                 </div>
             </ProjectData>
-            {transitions.map(
-                ({ item, props, key }) =>
-                    item && (
-                        <animated.div key={key} style={props}>
-                            <Previews
-                                token={token}
-                                project={project}
-                                collection={collections[collectionStep]}
-                            />
-                        </animated.div>
-                    )
-            )}
-            {/* {collections && (
+            {collections && (
                 <Previews
                     token={token}
                     project={project}
                     collection={collections[collectionStep]}
                 />
-            )} */}
+            )}
         </StyledProject>
     );
 };
@@ -115,11 +102,11 @@ const ProjectData = styled.div`
     );
     h1 {
         font-size: 42px;
-        margin: 0 0 0.5em 0;
+        margin: 0;
     }
     h2 {
-        font-size: 20px;
-        margin: 0;
+        font-size: 18px;
+        margin: 1em 0 0 0;
     }
     img {
         width: 66px;

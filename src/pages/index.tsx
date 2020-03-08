@@ -34,17 +34,16 @@ const Index: NextPage<IndexProps> = props => {
 
     const [projectSteps, setProjectStep]: any = useInterval({
         data: projects,
-        delay: delays.projects,
-        isLoading
+        delay: delays.projects
     });
 
     return (
         <>
-            {/* {isLoading && (
+            {isLoading && (
                 <CoverLoader>
                     <Loader />
                 </CoverLoader>
-            )} */}
+            )}
             {projects && (
                 <SingleProject
                     key={projects[projectSteps].id}

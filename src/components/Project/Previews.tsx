@@ -1,21 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import useFetch from "../../../lib/utils/useFetch";
 import useInterval from "../../../lib/utils/useInterval";
 import { animated, useTransition } from "react-spring";
 import styled from "styled-components";
 import { UiStore } from "../../../lib/store";
+import Loader from "../Loader";
 
 const Previews = ({ collection, project, token }) => {
     const { data: settings } = useSWR("store/settings");
     const { data: UiState } = useSWR("store/ui", { initialData: UiStore });
+    const [currentPreviews, setCurrentPreviews] = useState(null);
 
     const { delays } = settings;
 
     const [previewStep]: any = useInterval({
         data: collection.layers,
-        delay: delays.previews,
-        isLoading: UiState.isLoading
+        delay: delays.previews
     });
 
     const previewData = {
@@ -34,22 +35,25 @@ const Previews = ({ collection, project, token }) => {
     useEffect(() => {
         if (previews) {
             mutate("store/ui", { isLoading: false });
-        } else if (!previews) {
-            mutate("store/ui", { isLoading: true });
+            setCurrentPreviews(previews);
         }
     }, [previews]);
 
     useEffect(() => {
-        console.log(UiState);
-    }, [UiState]);
+        if (!previews && currentPreviews) console.log(currentPreviews);
+    }, [currentPreviews, previews]);
 
-    if (!previews) return null;
+    if (!previews && !currentPreviews) return null;
 
-    const transitions = useTransition(previews[previewStep], item => item.webUrl, {
-        from: { opacity: 0, transform: "translateX(-20px)" },
-        enter: { opacity: 1, transform: "translateX(0px)" },
-        leave: { opacity: 0, transform: "translateX(20px)" }
-    });
+    const transitions = useTransition(
+        previews ? previews[previewStep] : currentPreviews[previewStep],
+        item => item.webUrl,
+        {
+            from: { opacity: 0, transform: "translateX(-20px)" },
+            enter: { opacity: 1, transform: "translateX(0px)" },
+            leave: { opacity: 0, transform: "translateX(20px)" }
+        }
+    );
 
     return (
         <>
