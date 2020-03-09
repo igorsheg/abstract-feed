@@ -22,8 +22,19 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
 
     const fetcher = useFetch(token);
 
-    const { data: collections } = useSWR(["api/listCollections", project.id], (url, projectId) =>
-        fetcher(url, { projectId })
+    const { data: collections } = useSWR(
+        ["api/listCollections", project.id],
+        (url, projectId) => fetcher(url, { projectId }),
+        {
+            onError: e =>
+                console.log(
+                    "Error Getting Collections:",
+                    e,
+                    "Project Details:",
+                    project.id,
+                    project.name
+                )
+        }
     );
 
     useEffect(() => {

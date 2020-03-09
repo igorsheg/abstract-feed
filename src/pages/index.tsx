@@ -34,7 +34,7 @@ const Index: NextPage<IndexProps> = props => {
         (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId }),
         {
             refreshInterval: delays.refresh,
-            onError: e => console.log("Error in Projects!", e)
+            onError: e => console.log("Error Getting Projects:", e)
         }
     );
 
