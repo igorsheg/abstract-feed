@@ -42,7 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.json(await previews);
     } catch (err) {
-        res.status(500);
-        res.json({ error: err });
+        res.status(500).json({ error: err });
     }
 };
