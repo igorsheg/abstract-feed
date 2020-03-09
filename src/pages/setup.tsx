@@ -58,7 +58,7 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         });
 
         if (hasProjects?.length) {
-            Router.push(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
+            Router.replace(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
         } else {
             toasts?.current.error(`No projects in this section. Select a different section.`);
         }

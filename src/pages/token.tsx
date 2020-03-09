@@ -9,12 +9,14 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import LoadingDots from "../components/Loader/LoadingDots";
 import { useToasts } from "../components/Toasts";
+import useFetch from "../../lib/utils/useFetch";
 
 const Login: NextPage = () => {
     const [token, setToken] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const toasts = useToasts();
+    const fetcher = useFetch(token);
 
     const handleTokenSubmit = async () => {
         if (!token?.length) {
@@ -23,18 +25,15 @@ const Login: NextPage = () => {
         }
         if (token?.length) {
             setIsLoading(true);
-            const authHeader = { headers: { Authorization: `bearer ${token}` } };
-            const isValidToken = await fetch(`api/listOrganizations`, authHeader);
+            const listOrgs = await fetcher("api/listOrganizations");
 
-            if (!isValidToken.ok) {
+            if (!listOrgs?.length) {
                 setIsLoading(false);
                 toasts?.current.error("Invalid token, please try again.");
-
                 return;
             }
-
-            await fetch(`api/tokenCookie`, authHeader);
-            Router.push("/setup");
+            await fetcher("api/tokenCookie", { token });
+            Router.replace("/setup");
         }
     };
 
@@ -102,6 +101,10 @@ const Title = styled.div`
 const Body = styled.div`
     display: flex;
     flex-direction: row;
+
+    button {
+        width: 204px;
+    }
 
     & div {
         flex: 5;

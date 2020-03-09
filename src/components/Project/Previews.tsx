@@ -25,7 +25,7 @@ const Previews = ({ collection, project, token }) => {
 
     const fetcher = useFetch(token);
 
-    const { data: previews } = useSWR(
+    const { data: previews, error } = useSWR(
         ["api/getPreviews", collection.id],
         url => fetcher(url, previewData),
         {
@@ -37,7 +37,14 @@ const Previews = ({ collection, project, token }) => {
                     collection.id,
                     collection.name,
                     collection.layers
-                )
+                ),
+            onErrorRetry: (error, key, option, revalidate, { retryCount }) => {
+                if (retryCount >= 10) return;
+                if (error.status === 404) return;
+
+                // retry after 5 seconds
+                setTimeout(() => revalidate({ retryCount: retryCount + 1 }), 5000);
+            }
         }
     );
 
@@ -48,6 +55,7 @@ const Previews = ({ collection, project, token }) => {
         }
     }, [previews]);
 
+    if (error) return <p>Returned Error</p>;
     if (!previews && !currentPreviews) return null;
 
     const transitions = useTransition(

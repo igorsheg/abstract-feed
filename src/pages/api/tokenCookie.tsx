@@ -12,6 +12,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         secure: false
     };
     res.setHeader("Set-Cookie", serialize("token", token as string, options));
-    res.statusCode = 200;
-    res.end();
+    res.status(200).json({ ok: true });
 };
