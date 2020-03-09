@@ -40,6 +40,8 @@
     "lint-staged": ">=10",
     "patch-package": "^6.2.1",
     "postinstall-postinstall": "^2.0.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "typescript": "^3.8.3"
   },
   "husky": {
@@ -50,5 +52,4 @@
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint --cache --fix"
   }
- 
 }
