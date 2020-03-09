@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <>
             <GlobalStyle />
             <head>
+                <title>Abstract Feed</title>
                 <link
                     rel="stylesheet"
                     as="font"
