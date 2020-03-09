@@ -20,7 +20,6 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store/settings", { initialData: feedSettings });
     const { section, organization } = settings;
     const [isLoading, setIsLoading] = useState(false);
-    const [isValid, setIsvalid] = useState(true);
 
     const toasts = useToasts();
 
@@ -111,7 +110,6 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
                     )}
                 </Button>
             </Body>
-            {!isValid && <pre>No projects in this section</pre>}
         </StyledPage>
     );
 };

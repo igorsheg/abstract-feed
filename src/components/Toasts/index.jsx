@@ -109,7 +109,7 @@ class Toasts extends React.Component {
     render() {
         // const { } = this.state
         const { messages: allMessages, removed } = this.state;
-        const { center, dark } = this.props;
+        const { center = true, dark = true } = this.props;
         const messages = allMessages.filter(message => !removed.has(message));
 
         return (
