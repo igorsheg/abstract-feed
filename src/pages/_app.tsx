@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import theme from "../../lib/utils/theme";
 import GlobalStyle from "../../lib/globalStyles";
 import Flex from "../components/Flex";
+import { withToasts } from "../components/Toasts";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -32,4 +33,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
 }
 
-export default MyApp;
+export default withToasts(MyApp);

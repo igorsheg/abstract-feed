@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NextPage, NextPageContext } from "next";
 import { Redirect } from "../../lib/utils/redirect";
 import nextCookie from "next-cookies";
@@ -13,10 +13,16 @@ import styled from "styled-components";
 import Input from "../components/Input";
 import Loader from "../components/Loader";
 import { animated, useSpring } from "react-spring";
+import LoadingDots from "../components/Loader/LoadingDots";
+import { useToasts } from "../components/Toasts";
 
 const Setup: NextPage<{ token: string }> = ({ token }) => {
     const { data: settings } = useSWR("store/settings", { initialData: feedSettings });
     const { section, organization } = settings;
+    const [isLoading, setIsLoading] = useState(false);
+    const [isValid, setIsvalid] = useState(true);
+
+    const toasts = useToasts();
 
     const fetcher = useFetch(token);
 
@@ -45,17 +51,25 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
         mutate("store/settings", { ...settings, [type]: { id, name } });
     };
 
-    const clickHandler = () => {
-        Router.push(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
+    const clickHandler = async () => {
+        setIsLoading(true);
+        const hasProjects = await fetcher("api/listProjects", {
+            organizationId: organization.id,
+            sectionId: section.id
+        });
+
+        if (hasProjects?.length) {
+            Router.push(`/index?sectionId=${section.id}&organizationId=${organization.id}`, "/");
+        } else {
+            toasts?.current.error(`No projects in this section. Select a different section.`);
+        }
+
+        setIsLoading(false);
     };
 
     const bodyAnim = useSpring({
-        from: {
-            opacity: 0
-        },
-        to: {
-            opacity: !orgs ? 0 : 1
-        }
+        from: { opacity: 0 },
+        to: { opacity: !orgs ? 0 : 1 }
     });
 
     if (!orgs && !sections) return <Loader centered />;
@@ -87,10 +101,17 @@ const Setup: NextPage<{ token: string }> = ({ token }) => {
                     disabled={section.id ? false : true}
                     onChange={item => inputChangeHandler({ item, type: "section" })}
                 />
-                <Button tabIndex={0} type="button" onClick={clickHandler}>
-                    Go to Feed
+                <Button disabled={isLoading} tabIndex={0} type="button" onClick={clickHandler}>
+                    {isLoading ? (
+                        <LoadingDots color="#9A9A9A" size={3}>
+                            Loading
+                        </LoadingDots>
+                    ) : (
+                        "Go To Feed"
+                    )}
                 </Button>
             </Body>
+            {!isValid && <pre>No projects in this section</pre>}
         </StyledPage>
     );
 };
@@ -135,6 +156,8 @@ const Body = styled.div`
 
     button {
         z-index: 91;
+        width: 204px;
+        margin: 0 0 0 -2px;
     }
 
     div {

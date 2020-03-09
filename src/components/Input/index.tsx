@@ -93,7 +93,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         &:focus {
             border: 2px solid ${props => props.theme.D10};
             outline: none;
-            z-index: 91;
+            z-index: 991;
         }
         &:disabled {
             border: 2px solid ${props => props.theme.D50};
@@ -105,7 +105,7 @@ const StyledInput = styled.div<{ disabled?: boolean }>`
         position: absolute;
         right: 12px;
         pointer-events: none;
-        z-index: 991;
+        z-index: 9991;
         fill: ${props => (props.disabled ? props.theme.D50 : props.theme.D10)};
     }
 `;

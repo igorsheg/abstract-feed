@@ -8,13 +8,19 @@ import styled from "styled-components";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import LoadingDots from "../components/Loader/LoadingDots";
+import { useToasts } from "../components/Toasts";
 
 const Login: NextPage = () => {
     const [token, setToken] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const toasts = useToasts();
+
     const handleTokenSubmit = async () => {
-        if (!token?.length) return;
+        if (!token?.length) {
+            toasts?.current.error(`Token field cannot be empty.`);
+            return;
+        }
         if (token?.length) {
             setIsLoading(true);
             const authHeader = { headers: { Authorization: `bearer ${token}` } };
@@ -22,6 +28,8 @@ const Login: NextPage = () => {
 
             if (!isValidToken.ok) {
                 setIsLoading(false);
+                toasts?.current.error("Invalid token, please try again.");
+
                 return;
             }
 
