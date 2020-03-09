@@ -75,7 +75,7 @@ const Previews = ({ collection, project, token }) => {
         <animated.div style={fadeProps}>
             {transitions.map(({ item, props, key }) => (
                 <StyledPreview key={key} style={props}>
-                    {item.webUrl ? (
+                    {item ? (
                         <img src={`data:image/png;base64,${item.webUrl}`} />
                     ) : (
                         <pre>No Preview</pre>
