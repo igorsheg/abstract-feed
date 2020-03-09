@@ -19,7 +19,8 @@ module.exports = {
     rules: {
         "react/no-unknown-property": ["error", { ignore: ["class"] }],
         "react/display-name": 0,
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "@typescript-eslint/explicit-function-return-type": 0
     },
     settings: {
         react: {
@@ -29,10 +30,7 @@ module.exports = {
     overrides: [
         {
             files: ["*.js", "*.tsx", "*.ts"],
-            rules: {
-                "@typescript-eslint/explicit-function-return-type": "off",
-                "@typescript-eslint/no-var-requires": 0
-            }
+            rules: {}
         }
     ]
 };
