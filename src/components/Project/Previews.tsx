@@ -53,6 +53,7 @@ const Previews = ({ collection, project, token }) => {
             mutate("store/ui", { isLoading: false });
             setCurrentPreviews(previews);
         }
+        console.log("Logging Previews:", previews);
     }, [previews]);
 
     if (error) return <p>Returned Error</p>;

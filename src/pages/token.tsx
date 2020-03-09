@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
-import fetch from "isomorphic-unfetch";
 import styled from "styled-components";
 import Input from "../components/Input";
 import Button from "../components/Button";
