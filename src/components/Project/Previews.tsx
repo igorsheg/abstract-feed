@@ -4,6 +4,7 @@ import useFetch from "../../../lib/utils/useFetch";
 import useInterval from "../../../lib/utils/useInterval";
 import { animated, useTransition, useSpring } from "react-spring";
 import styled from "styled-components";
+import Log from "../../../lib/utils/Log";
 
 const Previews = ({ collection, project, token }) => {
     const { data: settings } = useSWR("store/settings");
@@ -29,15 +30,7 @@ const Previews = ({ collection, project, token }) => {
         ["api/getPreviews", collection.id],
         url => fetcher(url, previewData),
         {
-            onError: e =>
-                console.log(
-                    "Error Getting Previews:",
-                    e,
-                    "Collection Details:",
-                    collection.id,
-                    collection.name,
-                    collection.layers
-                ),
+            onError: e => Log({ message: "Error Getting Previews:", e }),
             onErrorRetry: (error, key, option, revalidate, { retryCount }) => {
                 if (retryCount >= 10) return;
                 if (error.status === 404) return;

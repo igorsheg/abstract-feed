@@ -20,7 +20,8 @@ module.exports = {
         "react/no-unknown-property": ["error", { ignore: ["class"] }],
         "react/display-name": 0,
         "react/prop-types": 0,
-        "@typescript-eslint/explicit-function-return-type": 0
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "no-console": 1
     },
     settings: {
         react: {

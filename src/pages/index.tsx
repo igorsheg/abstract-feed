@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React from "react";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
 import { NextPage, NextPageContext } from "next";
@@ -12,10 +10,12 @@ import { UiStore } from "../../lib/store";
 import Loader from "../components/Loader";
 import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
+import Log from "../../lib/utils/Log";
+
 type IndexProps = {
     token: string;
-    organizationId: any;
-    sectionId: any;
+    organizationId: string | string[];
+    sectionId: string | string[];
 };
 
 const Index: NextPage<IndexProps> = props => {
@@ -33,11 +33,11 @@ const Index: NextPage<IndexProps> = props => {
         (url, organizationId, sectionId) => fetcher(url, { organizationId, sectionId }),
         {
             refreshInterval: delays.refresh,
-            onError: e => console.log("Error Getting Projects:", e)
+            onError: e => Log({ message: "Error Getting Projects:", e })
         }
     );
 
-    const [projectSteps, setProjectStep]: any = useInterval({
+    const [projectSteps, setProjectStep] = useInterval({
         data: projects,
         delay: delays.projects
     });
@@ -48,10 +48,6 @@ const Index: NextPage<IndexProps> = props => {
         opacity: isLoading ? 1 : 0,
         display: isLoading ? "flex" : "none"
     });
-
-    useEffect(() => {
-        console.log(projects);
-    }, [projects]);
 
     return (
         <>

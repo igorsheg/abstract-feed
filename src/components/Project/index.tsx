@@ -6,6 +6,7 @@ import Previews from "./Previews";
 import useFetch from "../../../lib/utils/useFetch";
 import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
+import Log from "../../../lib/utils/Log";
 
 interface ProjectProps {
     project: Project;
@@ -27,12 +28,8 @@ const SingleProject: FC<ProjectProps> = ({ projectSteps, project, token }) => {
         (url, projectId) => fetcher(url, { projectId }),
         {
             onError: e =>
-                console.log(
-                    "Error Getting Collections:",
-                    e,
-                    "Project Details:",
-                    project.id,
-                    project.name
+                Log(
+                    `Error Getting Collections:, ${e}, Project Details:, ${project.id}, ${project.name}`
                 )
         }
     );
