@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import nextCookie from "next-cookies";
 import { Redirect } from "../../lib/utils/redirect";
 import { NextPage, NextPageContext } from "next";
@@ -12,7 +12,6 @@ import { UiStore } from "../../lib/store";
 import Loader from "../components/Loader";
 import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
-
 type IndexProps = {
     token: string;
     organizationId: any;
@@ -49,6 +48,10 @@ const Index: NextPage<IndexProps> = props => {
         opacity: isLoading ? 1 : 0,
         display: isLoading ? "flex" : "none"
     });
+
+    useEffect(() => {
+        console.log(projects);
+    }, [projects]);
 
     return (
         <>

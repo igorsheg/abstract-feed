@@ -25,7 +25,7 @@ const Previews = ({ collection, project, token }) => {
 
     const fetcher = useFetch(token);
 
-    const { data: previews, error } = useSWR(
+    const { data: previews } = useSWR(
         ["api/getPreviews", collection.id],
         url => fetcher(url, previewData),
         {
@@ -53,10 +53,8 @@ const Previews = ({ collection, project, token }) => {
             mutate("store/ui", { isLoading: false });
             setCurrentPreviews(previews);
         }
-        console.log("Logging Previews:", previews);
     }, [previews]);
 
-    if (error) return <p>Returned Error</p>;
     if (!previews && !currentPreviews) return null;
 
     const transitions = useTransition(
