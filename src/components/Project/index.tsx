@@ -83,15 +83,16 @@ const StyledProject = styled.div`
 const ProjectData = styled(animated.div)`
     z-index: 91;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
+    bottom: 36px;
+    left: 36px;
+    border-radius: 6px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 6em;
-    height: 30vh;
-    background: linear-gradient(
+    padding: 36px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: saturate(180%) blur(20px);
+    /* background: linear-gradient(
         to bottom,
         hsla(0, 0%, 0%, 0) 0%,
         hsla(0, 0%, 0%, 0.013) 8.1%,
@@ -109,22 +110,22 @@ const ProjectData = styled(animated.div)`
         hsla(0, 0%, 0%, 0.951) 84.5%,
         hsla(0, 0%, 0%, 0.987) 91.9%,
         hsl(0, 0%, 0%) 100%
-    );
+    ); */
     h1 {
-        font-size: 42px;
+        font-size: 28px;
         margin: 0;
     }
     h2 {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
-        margin: 1em 0 0 0;
+        margin: 0.5em 0 0 0;
     }
     img {
-        min-width: 66px;
-        min-height: 66px;
-        width: 66px;
-        height: 66px;
-        border-radius: 66px;
+        min-width: 48px;
+        min-height: 48px;
+        width: 48px;
+        height: 48px;
+        border-radius: 48px;
         overflow: hidden;
         margin: 0 24px 0 0;
     }
