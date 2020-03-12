@@ -1,6 +1,6 @@
 {
     "functions": {
-        "api/getPreviews.tsx": {
+        "api/getPreviews.js": {
             "memory": 3008,
             "maxDuration": 10
         }
