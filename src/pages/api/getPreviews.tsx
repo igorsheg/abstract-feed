@@ -1,6 +1,7 @@
 import { AbstractClient } from "../../../lib/utils/abstractClient";
 import { encode } from "base64-arraybuffer";
 import { NextApiRequest, NextApiResponse } from "next";
+import { feedSettings } from "../../../lib/store";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const headers = req.headers.authorization;
@@ -24,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     };
 
     const previews = Promise.all(
-        collection.layers.map(async x => {
+        collection.layers.slice(0, feedSettings.limits.previews).map(async x => {
             return {
                 webUrl: encode(
                     await getArrayBuffer({
