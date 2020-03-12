@@ -43,7 +43,6 @@ const Index: NextPage<IndexProps> = props => {
     });
 
     if (!projects) return null;
-    console.log(projects);
 
     const lodaerAnimProps = useSpring({
         opacity: isLoading ? 1 : 0,
