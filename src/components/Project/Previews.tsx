@@ -42,6 +42,7 @@ const Previews = ({ collection, project, token }) => {
     );
 
     useEffect(() => {
+        console.log(previews);
         if (previews) {
             mutate("store/ui", { isLoading: false });
             setCurrentPreviews(previews);
