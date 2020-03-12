@@ -41,8 +41,11 @@ const Login: NextPage = () => {
             <Title>
                 <h1>Setup Access Token</h1>
                 <h3>
-                    Enter your Abstract personal access token. Don&apos;t have one yet? You can
-                    generate a personal access token right here.
+                    Enter your Abstract personal access token. Don&apos;t have one yet? You can{" "}
+                    <a href="https://app.goabstract.com/account/tokens">
+                        generate a personal access token
+                    </a>
+                    .
                 </h3>
             </Title>
             <Body>

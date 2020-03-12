@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import theme from "./utils/theme";
-
+import { transparentize } from "polished";
 const GlobalStyle = createGlobalStyle`
 
 *, *::after, *::before {
@@ -44,7 +44,13 @@ pre {
 	}
 a {
 		text-decoration: none;
-		color: ${theme.B10};
+		border-bottom:1px dotted ${theme.D10};
+		color: ${theme.D10};
+
+		&:hover {
+			color: ${transparentize(0.2, theme.D10)}
+		}
+
 	}
 
 	
