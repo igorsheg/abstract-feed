@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import useFetch from "../../../lib/utils/useFetch";
 import useInterval from "../../../lib/utils/useInterval";
-import { animated, useTransition, useSpring } from "react-spring";
+import { animated, useTransition } from "react-spring";
 import styled from "styled-components";
 import Log from "../../../lib/utils/Log";
-
+import { feedSettings } from "../../../lib/store";
 const Previews = ({ collection, project, token }) => {
     const { data: settings } = useSWR("store/settings");
     const [currentPreviews, setCurrentPreviews] = useState(null);
@@ -13,7 +13,7 @@ const Previews = ({ collection, project, token }) => {
     const { delays } = settings;
 
     const [previewStep] = useInterval({
-        data: collection.layers,
+        data: collection.layers.slice(0, feedSettings.limits.previews),
         delay: delays.previews
     });
 
@@ -42,7 +42,6 @@ const Previews = ({ collection, project, token }) => {
     );
 
     useEffect(() => {
-        console.log(previews);
         if (previews) {
             mutate("store/ui", { isLoading: false });
             setCurrentPreviews(previews);
@@ -53,7 +52,7 @@ const Previews = ({ collection, project, token }) => {
 
     const transitions = useTransition(
         previews ? previews[previewStep] : currentPreviews[previewStep],
-        null,
+        item => (item ? item.webUrl : null),
         {
             from: { opacity: 0, transform: "translateX(-20px)" },
             enter: { opacity: 1, transform: "translateX(0px)" },
@@ -61,10 +60,8 @@ const Previews = ({ collection, project, token }) => {
         }
     );
 
-    const fadeProps = useSpring({ opacity: !previews ? 0 : 1 });
-
     return (
-        <animated.div style={fadeProps}>
+        <>
             {transitions.map(({ item, props, key }) => (
                 <StyledPreview key={key} style={props}>
                     {item ? (
@@ -74,7 +71,7 @@ const Previews = ({ collection, project, token }) => {
                     )}
                 </StyledPreview>
             ))}
-        </animated.div>
+        </>
     );
 };
 

@@ -14,7 +14,7 @@ const feedSettings = {
         previews: (60 * 1000) / 3 / 3
     },
     limits: {
-        projects: 5,
+        projects: 10,
         collections: 3,
         previews: 3
     }
