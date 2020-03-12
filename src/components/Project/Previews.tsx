@@ -43,8 +43,6 @@ const Previews = ({ collection, project, token }) => {
 
     useEffect(() => {
         if (previews) {
-            console.log(previews);
-
             mutate("store/ui", { isLoading: false });
             setCurrentPreviews(previews);
         }
@@ -54,7 +52,7 @@ const Previews = ({ collection, project, token }) => {
 
     const transitions = useTransition(
         previews ? previews[previewStep] : currentPreviews[previewStep],
-        item => item.webUrl,
+        null,
         {
             from: { opacity: 0, transform: "translateX(-20px)" },
             enter: { opacity: 1, transform: "translateX(0px)" },
