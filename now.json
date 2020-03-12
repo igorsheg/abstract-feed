@@ -1,6 +1,6 @@
 {
     "functions": {
-        "api/getPreviews.js": {
+        "src/api/getPreviews.js": {
             "memory": 3008,
             "maxDuration": 10
         }
