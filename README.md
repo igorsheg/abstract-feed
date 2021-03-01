@@ -1,5 +1,6 @@
 # Abstract Feed
 
+A simple, fullscreen app that cycles through recently updated master collections in Abstract.
 
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Figorsheg-wix%2Fabstract-feed)
@@ -14,18 +15,13 @@ git clone https://github.com/igorsheg-wix/abstract-feed.git
 
 [Get an Abstract access token](https://app.goabstract.com/account/tokens)
 
-Install it and run:
+Install and run:
 
 ```bash
-npm install
-npm run dev
+yarn install
+yarn run dev
 ```
 
-Deploy it to the cloud with [now](https://zeit.co/now) ([download](https://zeit.co/download)):
-
-```bash
-now
-```
 
 ## The idea behind it
 
