@@ -9,7 +9,7 @@
 Clone the repository:
 
 ```bash
-git clone https://github.com/igorsheg-wix/wixps-feed.git
+git clone https://github.com/igorsheg-wix/abstract-feed.git
 ```
 
 [Get an Abstract access token](https://app.goabstract.com/account/tokens)
